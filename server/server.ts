@@ -1,6 +1,7 @@
 require("dotenv").config({ path: "./.env" });
 import express from "express";
 import { connectToServer } from "./database/mongo";
+import routerConf from "./src/routerConf";
 
 const cors = require("cors");
 
@@ -14,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.use("/", routerConf);
+app.use("/", routerConf);
 
 connectToServer((err: any) => {
   if (err) {

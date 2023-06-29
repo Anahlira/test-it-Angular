@@ -19,4 +19,4 @@ export const connectToServer = (cb: Function) => {
       return cb(err);
     });
 };
-export const getDb = () => dbConn;
+export const getConnection = () => dbConn;
