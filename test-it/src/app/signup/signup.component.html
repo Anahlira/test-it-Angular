@@ -1,0 +1,57 @@
+<h2>Login</h2>
+<form [formGroup]="form" (ngSubmit)="signup()">
+  <div>
+    <label for="email">Email:</label>
+    <input
+      id="email"
+      type="email"
+      name="email"
+      formControlName="email"
+      required
+    />
+  </div>
+  <div>
+    <label for="username">Username:</label>
+    <input
+      id="username"
+      type="username"
+      name="username"
+      formControlName="username"
+      required
+    />
+  </div>
+  <div>
+    <label for="firstName">First Name:</label>
+    <input
+      id="firstName"
+      type="firstName"
+      name="firstName"
+      formControlName="firstName"
+      required
+    />
+  </div>
+  <div>
+    <label for="lastName">Last Name:</label>
+    <input
+      id="lastName"
+      type="lastName"
+      name="lastName"
+      formControlName="lastName"
+      required
+    />
+  </div>
+  <div>
+    <label for="password">Password:</label>
+    <input
+      id="password"
+      type="password"
+      name="password"
+      formControlName="password"
+      required
+    />
+  </div>
+  <button type="submit" [disabled]="form.invalid">Sign Up</button>
+  <button type="button" class="login-button" (click)="goToLogin()">
+    Go to Login
+  </button>
+</form>

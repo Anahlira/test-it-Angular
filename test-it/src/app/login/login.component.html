@@ -1,1 +1,27 @@
-<button (click)="login()">Login</button>
+<h2>Login</h2>
+<form [formGroup]="form" (ngSubmit)="login()">
+  <div>
+    <label for="email">Email:</label>
+    <input
+      id="email"
+      type="email"
+      name="email"
+      formControlName="email"
+      required
+    />
+  </div>
+  <div>
+    <label for="password">Password:</label>
+    <input
+      id="password"
+      type="password"
+      name="password"
+      formControlName="password"
+      required
+    />
+  </div>
+  <button type="submit" [disabled]="form.invalid">Login</button>
+  <button type="button" class="signup-button" (click)="goToSignUp()">
+    Sign Up
+  </button>
+</form>
