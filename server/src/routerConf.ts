@@ -1,8 +1,8 @@
 import express from "express";
 const routerConf = express.Router();
 
-// import *routename* from "./routes/*routname*";
+import routerTests from "./routes/tests";
 
-// routerConf.use("/*route*", routerOnboard);
+routerConf.use("/tests", routerTests);
 
 export default routerConf;

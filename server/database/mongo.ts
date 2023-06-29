@@ -10,7 +10,7 @@ const dbName = "testit";
 export const connectToServer = (cb: Function) => {
   MongoClient.connect(process.env.ATLAS_MONGO as string)
     .then((client) => {
-      const dbConn = client.db(dbName);
+      dbConn = client.db(dbName);
       console.log("Connected to database");
 
       return cb();
