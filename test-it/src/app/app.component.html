@@ -1,7 +1,8 @@
 <nav>
   <div *ngIf="isLoggedIn" class="routes">
     <a routerLink="/home">Home</a>
-    <a routerLink="/test">Tests</a>
+    <a routerLink="/tests">Tests</a>
+    <a routerLink="/test-create">Create test</a>
   </div>
 </nav>
 <div *ngIf="isLoggedIn"><button (click)="logout()">Logout</button></div>

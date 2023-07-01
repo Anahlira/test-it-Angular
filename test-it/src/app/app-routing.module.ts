@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthActivate } from './guards';
 import { HomeComponent } from './home/home.component';
 import { SignupComponent } from './signup/signup.component';
+import { TestCreateComponent } from './tests/components';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
@@ -36,10 +37,17 @@ const routes: Routes = [
   },
 
   {
-    path: 'test',
+    path: 'tests',
     loadChildren: () =>
       import('./tests/tests.module').then((m) => m.TestsModule),
     title: 'App | Test Detail',
+    canActivate: [AuthActivate],
+  },
+
+  {
+    path: 'test-create',
+    component: TestCreateComponent,
+    title: 'App | Create test',
     canActivate: [AuthActivate],
   },
 ];

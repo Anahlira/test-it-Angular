@@ -1,0 +1,50 @@
+<h2>Create Test</h2>
+
+<form [formGroup]="form" (ngSubmit)="saveTest()">
+  <label>Title:</label>
+  <input
+    formControlName="testTitle"
+    type="text"
+    placeholder="Enter test title"
+  />
+
+  <hr />
+
+  <h3>Questions</h3>
+  <div formArrayName="questions">
+    <div
+      *ngFor="let questionGroup of questionGroups.controls; let i = index"
+      [formGroupName]="i"
+    >
+      <label>Question {{ i + 1 }}:</label>
+      <input formControlName="text" type="text" placeholder="Enter question" />
+
+      <label>Multiple Choice:</label>
+      <input formControlName="multipleChoice" type="checkbox" />
+
+      <label>Answers:</label>
+      <div formArrayName="answers">
+        <div
+          *ngFor="let answerGroup of answerGroups(i).controls; let j = index"
+          [formGroupName]="j"
+        >
+          <input
+            formControlName="text"
+            type="text"
+            placeholder="Enter answer"
+          />
+
+          <input type="radio" [value]="j" formControlName="correct" />
+          <span>Correct Answer</span>
+
+          <hr />
+        </div>
+        <button type="button" (click)="addAnswer(i)">Add Answer</button>
+      </div>
+    </div>
+  </div>
+
+  <button type="button" (click)="addQuestion()">Add Question</button>
+
+  <button type="submit">Save Test</button>
+</form>
