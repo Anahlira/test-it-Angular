@@ -34,6 +34,14 @@ const routes: Routes = [
       authenticationRequired: false,
     },
   },
+
+  {
+    path: 'test',
+    loadChildren: () =>
+      import('./tests/tests.module').then((m) => m.TestsModule),
+    title: 'App | Test Detail',
+    canActivate: [AuthActivate],
+  },
 ];
 
 export const AppRoutingModule = RouterModule.forRoot(routes);

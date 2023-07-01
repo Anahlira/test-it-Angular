@@ -1,0 +1,14 @@
+<div *ngIf="test">
+  <p>{{ test.title }}</p>
+  <div *ngFor="let question of test.questions">
+    <p>{{ question.id }}. {{ question.questionText }}</p>
+    <div *ngFor="let answer of question.answers">
+      <p>{{ answer.id }}. {{ answer.text }}</p>
+    </div>
+  </div>
+  <!-- <button [routerLink]="['..', test.id, 'edit']">Edit test info</button> -->
+</div>
+
+<div *ngIf="!test">
+  <p>Test does not exist</p>
+</div>
