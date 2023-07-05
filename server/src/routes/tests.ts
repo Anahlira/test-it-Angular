@@ -31,7 +31,7 @@ routerTests.get("/user/:id", async (req, res) => {
   const dbConn = getConnection();
   const dbTests = dbConn.collection("tests");
 
-  const query = { owner_id: Number(req.params.id) };
+  const query = { ownerId: Number(req.params.id) };
   const options = {
     projection: { title: 1, visibility: 1 },
   };
@@ -60,6 +60,8 @@ routerTests.get("/:testid", async (req, res) => {
 routerTests.post("/", async (req, res) => {
   const dbConn = getConnection();
   const dbTests = dbConn.collection("tests");
+
+  console.log(req.body);
 
   if (!isATest(req.body) || !req.body.questions) {
     res.status(400);
@@ -114,7 +116,7 @@ routerTests.delete("/user/:id", async (req, res) => {
   const dbConn = getConnection();
   const dbTests = dbConn.collection("tests");
 
-  const query = { owner_id: Number(req.params.id) };
+  const query = { ownerId: Number(req.params.id) };
 
   const result = await dbTests.deleteMany(query);
   if (result.deletedCount === 0) {

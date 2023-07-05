@@ -41,7 +41,7 @@ export type TestI = {
 };
 
 export const isATest = (test: any): test is TestI => {
-  return "owner_id" in test && "title" in test && "visibility" in test;
+  return "ownerId" in test && "title" in test && "visibility" in test;
 };
 
 // const tryd: Answer = { 1: "hello", 2: "kiki" };

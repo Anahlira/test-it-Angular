@@ -2,19 +2,23 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map, of } from 'rxjs';
 
+export interface IAnswer {
+  id: number;
+  text: string;
+}
 export interface IQuestion {
   id: number;
   questionText: string;
-  type: 'radio' | 'checkbox';
-  answers: { id: number; text: string }[];
+  type: 'radio' | 'mc';
+  answers: IAnswer[];
+  correctAnswers: number[] | number;
 }
 
 export interface ITest {
-  id: number;
-  ownerId: number;
+  id?: number;
+  ownerId?: number;
   title: string;
   questions: IQuestion[];
-  correctIds: number[];
   visibility: 'public' | 'private';
 }
 
@@ -61,19 +65,20 @@ const tests: ITest[] = [
           { id: 2, text: 'Option B' },
           { id: 3, text: 'Option C' },
         ],
+        correctAnswers: [1],
       },
       {
         id: 2,
         questionText: 'Q2',
-        type: 'checkbox',
+        type: 'mc',
         answers: [
           { id: 1, text: 'Option A' },
           { id: 2, text: 'Option B' },
           { id: 3, text: 'Option C' },
         ],
+        correctAnswers: [1],
       },
     ],
-    correctIds: [1, 2],
     visibility: 'public',
   },
   {
@@ -90,9 +95,9 @@ const tests: ITest[] = [
           { id: 2, text: 'Option Y' },
           { id: 3, text: 'Option Z' },
         ],
+        correctAnswers: [1],
       },
     ],
-    correctIds: [3],
     visibility: 'private',
   },
 ];

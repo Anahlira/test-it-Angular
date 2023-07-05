@@ -2,11 +2,10 @@
 
 <form [formGroup]="form" (ngSubmit)="saveTest()">
   <label>Title:</label>
-  <input
-    formControlName="testTitle"
-    type="text"
-    placeholder="Enter test title"
-  />
+  <input formControlName="title" type="text" placeholder="Enter test title" />
+
+  <label>Private</label>
+  <input formControlName="private" type="checkbox" />
 
   <hr />
 
@@ -17,7 +16,7 @@
       [formGroupName]="i"
     >
       <label>Question {{ i + 1 }}:</label>
-      <input formControlName="text" type="text" placeholder="Enter question" />
+      <input formControlName="questionText" type="text" placeholder="Enter question" />
 
       <label>Multiple Choice:</label>
       <input formControlName="multipleChoice" type="checkbox" />
