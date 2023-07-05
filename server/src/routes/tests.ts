@@ -2,34 +2,62 @@ import express from "express";
 const routerTests = express.Router();
 
 import { QuestionsI, TestI, isATest } from "../../interfaces/Interfaces";
-import { getConnection } from "../../database/mongo";
+import { getConnection, makeId } from "../../database/mongo";
 
 //get all tests
-routerTests.get("/", (req, res) => {
+//returns tests with _id, title and visibility
+routerTests.get("/", async (req, res) => {
   const dbConn = getConnection();
   const dbTests = dbConn.collection("tests");
+  // dbTests.find({}).toArray((err, result) => {});
 
-  res.send("tests");
+  const options = {
+    projection: { title: 1, visibility: 1 },
+  };
+
+  const cursor = dbTests.find({}, options);
+  const allTests = [];
+  for await (const doc of cursor) {
+    console.log(doc);
+    allTests.push(doc);
+  }
+
+  res.send(allTests);
 });
 
 //get tests of specific user
-routerTests.get("/user", (req, res) => {
+//returns tests with _id, title and visibility
+routerTests.get("/user/:id", async (req, res) => {
   const dbConn = getConnection();
   const dbTests = dbConn.collection("tests");
 
-  console.log(req.query);
-  res.send("tests of user");
+  const query = { owner_id: Number(req.params.id) };
+  const options = {
+    projection: { title: 1, visibility: 1 },
+  };
+
+  const cursor = dbTests.find(query, options);
+  const allTests = [];
+  for await (const doc of cursor) {
+    console.log(doc);
+    allTests.push(doc);
+  }
+
+  res.send(allTests);
 });
 
 //get test by Id
-routerTests.get("/:testid", (req, res) => {
+routerTests.get("/:testid", async (req, res) => {
   const dbConn = getConnection();
   const dbTests = dbConn.collection("tests");
-  res.send("test");
+
+  const query = { _id: makeId(req.params.testid) };
+  const test = await dbTests.findOne(query);
+  res.send(test);
 });
 
 //create test
-routerTests.post("/", (req, res) => {
+routerTests.post("/", async (req, res) => {
   const dbConn = getConnection();
   const dbTests = dbConn.collection("tests");
 
@@ -54,7 +82,7 @@ routerTests.post("/", (req, res) => {
     last_modified: new Date(),
   };
 
-  Promise.resolve(dbTests.insertOne(document))
+  await Promise.resolve(dbTests.insertOne(document))
     .then((data) => console.log(data))
     .catch((err) => {
       console.log(err);

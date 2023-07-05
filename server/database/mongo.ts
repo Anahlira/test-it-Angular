@@ -1,4 +1,4 @@
-import { MongoClient, Db } from "mongodb";
+import { MongoClient, Db, ObjectId } from "mongodb";
 // const client = new MongoClient(process.env.ATLAS_MONGO as string, {
 //   useNewUrlParser: true,
 //   useUnigiedTopology: true,
@@ -20,3 +20,4 @@ export const connectToServer = (cb: Function) => {
     });
 };
 export const getConnection = () => dbConn;
+export const makeId = (id: string) => new ObjectId(id);
