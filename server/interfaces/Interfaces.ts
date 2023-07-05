@@ -33,7 +33,7 @@ export interface QuestionsI {
 }
 
 export type TestI = {
-  id?: number;
+  id?: string;
   ownerId: number;
   title: string;
   visibility: "public" | "private";
