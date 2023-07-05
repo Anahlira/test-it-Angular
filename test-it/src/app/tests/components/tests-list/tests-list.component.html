@@ -1,8 +1,8 @@
 <ul>
   <li *ngFor="let test of tests | async" (click)="handleTestClick(test)">
-    <a [routerLink]="['..', test.id]">{{ test.title }} </a>
-    <button [routerLink]="['..', test.id]">View test</button>
-    <button [routerLink]="['..', test.id]">Edit test</button>
-    <button [routerLink]="['..', test.id]">Start test</button>
+    <a [routerLink]="['..', test._id]">{{ test.title }} </a>
+    <button [routerLink]="['..', test._id]">View test</button>
+    <button [routerLink]="['..', test._id]">Edit test</button>
+    <button [routerLink]="['..', test._id]">Start test</button>
   </li>
 </ul>
