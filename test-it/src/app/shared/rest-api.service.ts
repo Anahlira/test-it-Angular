@@ -53,6 +53,24 @@ export class RestApiService {
       )
       .pipe(retry(1), catchError(this.handleError));
   }
+
+  getTests(): Observable<ITest[]> {
+    return this.http
+      .get<ITest[]>(
+        'http://localhost:3000/tests',
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
+  getTestById(id: string): Observable<ITest> {
+    return this.http
+      .get<ITest>(
+        `http://localhost:3000/tests/${id}`,
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
   // Error handling
   handleError(error: any) {
     let errorMessage = '';

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { ITest, TestsService } from 'src/app/services/tests.service';
 
 @Component({

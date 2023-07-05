@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, mergeMap, switchMap } from 'rxjs';
+import { Observable, map, mergeMap, switchMap } from 'rxjs';
 import { ITest, TestsService } from 'src/app/services/tests.service';
 
 @Component({
@@ -9,24 +9,27 @@ import { ITest, TestsService } from 'src/app/services/tests.service';
   styleUrls: ['./test-detail.component.scss'],
 })
 export class TestDetailComponent {
-  test: ITest | undefined = undefined;
+  test$: Observable<ITest> | undefined = undefined;
   constructor(
     private testsService: TestsService,
     private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    return this.testsService.tests$
-      .pipe(
-        map((tests: ITest[]) =>
-          tests.find(
-            (test: ITest) =>
-              test.id === +this.activatedRoute.snapshot.params['id']
-          )
-        )
-      )
-      .subscribe((test) => {
-        this.test = test;
-      });
+    this.test$ = this.testsService.getTest(
+      this.activatedRoute.snapshot.params['id']
+    );
+    // this.testsService.tests$
+    //   .pipe(
+    //     map((tests: ITest[]) =>
+    //       tests.find(
+    //         (test: ITest) =>
+    //           test._id === this.activatedRoute.snapshot.params['id']
+    //       )
+    //     )
+    //   )
+    //   .subscribe((test) => {
+    //     this.test = test;
+    //   });
   }
 }

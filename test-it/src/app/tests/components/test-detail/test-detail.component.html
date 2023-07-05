@@ -1,4 +1,8 @@
-<div *ngIf="test">
+<div *ngIf="test$ | async as test">
+  <div *ngIf="!test">
+    <p>Test does not exist</p>
+  </div>
+
   <p>{{ test.title }}</p>
   <div *ngFor="let question of test.questions">
     <p>{{ question.id }}. {{ question.questionText }}</p>
@@ -7,8 +11,4 @@
     </div>
   </div>
   <!-- <button [routerLink]="['..', test.id, 'edit']">Edit test info</button> -->
-</div>
-
-<div *ngIf="!test">
-  <p>Test does not exist</p>
 </div>
