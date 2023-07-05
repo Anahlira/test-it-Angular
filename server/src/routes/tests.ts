@@ -64,7 +64,7 @@ routerTests.post("/", async (req, res) => {
   if (!isATest(req.body) || !req.body.questions) {
     res.status(400);
     if (!req.body.title) res.send("The test is missing title");
-    else if (!req.body.owner_id) res.send("The test is missing owner_id");
+    else if (!req.body.ownerId) res.send("The test is missing ownerId");
     else if (!req.body.visibility)
       res.send("The test is missing visibility: 'public' or 'private'");
     else if (!req.body.questions) res.send("The test is missing questions");
@@ -74,7 +74,7 @@ routerTests.post("/", async (req, res) => {
   }
   const isPublic = req.body.visibility === "private" ? 0 : 1;
   const document = {
-    owner_id: req.body.owner_id,
+    ownerId: req.body.ownerId,
     title: req.body.title,
     visibility: isPublic,
     questions: req.body.questions as unknown as QuestionsI,
@@ -88,7 +88,7 @@ routerTests.post("/", async (req, res) => {
       console.log(err);
       res.status(400).send("Error inserting document");
     });
-  res.send("Added test to database");
+  res.send(document);
 });
 
 //delete specific test

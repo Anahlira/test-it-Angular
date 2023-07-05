@@ -1,12 +1,15 @@
 export interface Answer {
-  [code: number]: string;
+  id: number;
+  text: string;
+  correct: boolean;
 }
 
 export interface QuestionI {
-  question_text: string;
+  id: number;
+  questionText: string;
   type: "radio" | "mc";
-  answers: Answer;
-  correct: number | number[];
+  answers: Answer[];
+  correctAnswers: number | number[];
 }
 
 //TODO:
@@ -31,10 +34,10 @@ export interface QuestionsI {
 
 export type TestI = {
   id?: number;
-  owner_id: number;
+  ownerId: number;
   title: string;
   visibility: "public" | "private";
-  questions: QuestionI;
+  questions: QuestionI[];
 };
 
 export const isATest = (test: any): test is TestI => {
