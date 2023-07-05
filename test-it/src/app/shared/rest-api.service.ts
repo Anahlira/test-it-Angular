@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginUser, User } from '../shared/user';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
+import { ITest } from '../services/tests.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -37,6 +38,17 @@ export class RestApiService {
         // this.apiURL + '/Users',
         'https://dummyjson.com/auth/login',
         JSON.stringify({ username: User.email, password: User.password }),
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
+  createTest(test: ITest): Observable<ITest> {
+    return this.http
+      .post<ITest>(
+        // this.apiURL + '/Users',
+        'http://localhost:3000/tests',
+        test,
         this.httpOptions
       )
       .pipe(retry(1), catchError(this.handleError));

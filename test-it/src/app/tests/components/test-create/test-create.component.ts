@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { IQuestion, ITest } from 'src/app/services/tests.service';
+import { RestApiService } from 'src/app/shared/rest-api.service';
 
 @Component({
   selector: 'app-test-create',
@@ -9,16 +11,20 @@ import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 export class TestCreateComponent {
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    public restApi: RestApiService
+  ) {
     this.form = this.formBuilder.group({
-      testTitle: '',
+      title: '',
+      private: false,
       questions: this.formBuilder.array([this.createQuestionGroup()]),
     });
   }
 
   createQuestionGroup() {
     return this.formBuilder.group({
-      text: '',
+      questionText: '',
       multipleChoice: false,
       answers: this.formBuilder.array([
         this.createAnswerGroup(),
@@ -54,11 +60,40 @@ export class TestCreateComponent {
 
   saveTest() {
     const test = this.form.value;
-    console.log(test);
+    // console.log(test);
+    // const questions: IQuestion = {
+    //   answers: this.form.value.questions}
+    const questions: IQuestion[] = this.form.value.questions.map(
+      (element: any, index: number) => {
+        return {
+          id: index,
+          questionText: element.questionText,
+          type: element.multipleChoice ? 'mc' : 'radio',
+          answers: element.answers.map((answer: any, id: number) => ({
+            id: id,
+            ...answer,
+          })),
+          correctAnswers: [1],
+        };
+      }
+    );
+    // console.log(questions);
+    let myTest: ITest = {
+      ownerId: 1,
+      title: this.form.value.title,
+      questions: questions,
+      visibility: 'public',
+    };
+    console.log(myTest);
     //  save the test ...
+
+    this.restApi.createTest(myTest).subscribe((data: ITest) => {
+      console.log(data);
+    });
 
     this.form.reset({
       testTitle: '',
+      private: false,
       questions: [this.createQuestionGroup()],
     });
   }
