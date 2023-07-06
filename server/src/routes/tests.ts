@@ -103,12 +103,16 @@ routerTests.delete("/:testid", async (req, res) => {
   const result = await dbTests.deleteOne(query);
   if (result.deletedCount !== 1) {
     console.log("No documents matched the query. Deleted 0 documents.");
-    res
-      .status(400)
-      .send("No documents matched the query. Deleted 0 documents.");
+    res.status(400).send({
+      success: false,
+      message: "No documents matched the query. Deleted 0 documents.",
+    });
     return;
   }
-  res.send("Successfully deleted one document.");
+  res.send({
+    success: true,
+    message: "Successfully deleted one document.",
+  });
 });
 
 //delete all tests of user (user must be specified)
@@ -121,12 +125,16 @@ routerTests.delete("/user/:id", async (req, res) => {
   const result = await dbTests.deleteMany(query);
   if (result.deletedCount === 0) {
     console.log("No documents matched the query. Deleted 0 documents.");
-    res
-      .status(400)
-      .send(`No documents matched the query. Deleted 0 documents.`);
+    res.status(400).send({
+      success: false,
+      message: `No documents matched the query. Deleted 0 documents.`,
+    });
     return;
   }
-  res.send(`Successfully deleted ${result.deletedCount} documents.`);
+  res.send({
+    success: true,
+    message: `Successfully deleted ${result.deletedCount} documents.`,
+  });
 });
 
 export default routerTests;
