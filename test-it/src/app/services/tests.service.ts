@@ -56,6 +56,7 @@ export class TestsService {
   deleteTest(id: string): void {
     this.restApi.deleteTestById(id).subscribe();
     //not reloading list?
+    this.tests$ = this.loadTests();
   }
 }
 
