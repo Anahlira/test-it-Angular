@@ -20,7 +20,7 @@ export class LoginComponent {
       [
         Validators.required,
         Validators.minLength(4),
-        //  containsValidator('@')
+         containsValidator('@')
       ],
       ,
       [],

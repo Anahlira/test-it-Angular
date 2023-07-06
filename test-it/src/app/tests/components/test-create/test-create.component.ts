@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
-import { IQuestion, ITest } from 'src/app/services/tests.service';
+import { IAnswer, IQuestion, ITest } from 'src/app/services/tests.service';
 import { RestApiService } from 'src/app/shared/rest-api.service';
 
 @Component({
@@ -58,34 +58,45 @@ export class TestCreateComponent {
     this.answerGroups(questionIndex).push(this.createAnswerGroup());
   }
 
+  removeAnswer(questionIndex: number, answerIndex: number) {
+    this.answerGroups(questionIndex).removeAt(answerIndex);
+  }
+
+  updateCorrectAnswer(question: any, selectedAnswerIndex: number) {
+    const answerGroups = question.get('answers') as FormArray;
+    answerGroups.controls.forEach((answerGroup: any, index: number) => {
+      answerGroup.get('correct').setValue(index === selectedAnswerIndex);
+    });
+  }
+
   saveTest() {
-    const test = this.form.value;
-    // console.log(test);
-    // const questions: IQuestion = {
-    //   answers: this.form.value.questions}
     const questions: IQuestion[] = this.form.value.questions.map(
       (element: any, index: number) => {
+        // Filter the empty answers
+        const answers = element.answers
+          .filter((el: IAnswer) => el.text !== '')
+          .map((answer: any, id: number) => ({
+            id: id + 1,
+            ...answer,
+          }));
+
         return {
-          id: index,
+          id: index + 1,
           questionText: element.questionText,
           type: element.multipleChoice ? 'mc' : 'radio',
-          answers: element.answers.map((answer: any, id: number) => ({
-            id: id,
-            ...answer,
-          })),
+          answers: answers,
           correctAnswers: [1],
         };
       }
     );
-    // console.log(questions);
-    let myTest: ITest = {
+
+    const myTest: ITest = {
       ownerId: 1,
       title: this.form.value.title,
       questions: questions,
       visibility: 'public',
     };
     console.log(myTest);
-    //  save the test ...
 
     this.restApi.createTest(myTest).subscribe((data: ITest) => {
       console.log(data);
