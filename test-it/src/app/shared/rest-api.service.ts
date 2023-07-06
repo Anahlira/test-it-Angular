@@ -19,6 +19,7 @@ export class RestApiService {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
     }),
+    withCredentials: true,
   };
 
   // HttpClient API post() method => Create User
@@ -36,10 +37,19 @@ export class RestApiService {
     return this.http
       .post<User>(
         // this.apiURL + '/Users',
-        'https://dummyjson.com/auth/login',
-        JSON.stringify({ username: User.email, password: User.password }),
+        this.apiURL + '/auth/login', //'https://dummyjson.com/auth/login',
+        JSON.stringify({ email: User.email, password: User.password }),
         this.httpOptions
       )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
+  logoutUser(): Observable<boolean> {
+    console.log('loggging out');
+    //not calling this???
+    
+    return this.http
+      .post<boolean>(this.apiURL + '/auth/logout', {}, this.httpOptions)
       .pipe(retry(1), catchError(this.handleError));
   }
 
@@ -56,19 +66,13 @@ export class RestApiService {
 
   getTests(): Observable<ITest[]> {
     return this.http
-      .get<ITest[]>(
-        'http://localhost:3000/tests',
-        this.httpOptions
-      )
+      .get<ITest[]>('http://localhost:3000/tests', this.httpOptions)
       .pipe(retry(1), catchError(this.handleError));
   }
 
   getTestById(id: string): Observable<ITest> {
     return this.http
-      .get<ITest>(
-        `http://localhost:3000/tests/${id}`,
-        this.httpOptions
-      )
+      .get<ITest>(`http://localhost:3000/tests/${id}`, this.httpOptions)
       .pipe(retry(1), catchError(this.handleError));
   }
   // Error handling

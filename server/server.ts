@@ -8,19 +8,22 @@ import routerConf from "./src/routerConf";
 const cors = require("cors");
 
 const corsOptions = {
-  origin: "0",
+  origin: "http://localhost:4200",
   optionsSuccessStatus: 200,
+  // "Access-Control-Allow-Credentials": true,
+  credentials: true,
 };
 
 const app = express();
-app.use(cors());
+app.options("*", cors(corsOptions));
+app.use(cors(corsOptions));
 
 const oneDay = 1000 * 60 * 60 * 24;
 app.use(
   session({
     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767 haha for js",
     saveUninitialized: true,
-    cookie: { maxAge: oneDay },
+    cookie: { maxAge: oneDay, httpOnly: false },
     resave: false,
   })
 );

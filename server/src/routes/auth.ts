@@ -9,7 +9,7 @@ import { replace_id } from "./utils";
 routerAuth.post("/login", async (req, res) => {
   const credentials = req.body;
   if (!credentials.email) {
-    res.status(400).send("User needs a valid email!");
+    res.status(400).send("User needs a email!");
     return;
   } else if (!credentials.password) {
     res.status(400).send("User needs a password");
@@ -34,10 +34,12 @@ routerAuth.post("/login", async (req, res) => {
 
   (req.session as any).username = user.username;
   (req.session as any).userid = user._id;
+  res.cookie("user", "yes", { httpOnly: false });
 
   console.log(req.session);
   delete user.password;
-  res.json({ auth: true, user });
+  //res.json({ auth: true, user });
+  res.send(user);
 });
 
 routerAuth.post("/register", async (req, res) => {
@@ -74,18 +76,19 @@ routerAuth.post("/register", async (req, res) => {
   res.send(user);
 });
 
-routerAuth.get("/logout", (req, res) => {
+routerAuth.post("/logout", (req, res) => {
+  res.clearCookie("user");
+
   req.session.destroy((err) => {
     if (err) {
       console.log(err);
-      res.send("Error on logout");
+      res.send(false);
     } else {
       console.log(req.session);
-      res.redirect("/login");
-      res.end();
+      // res.redirect("/login");
+      res.send(true);
     }
   });
-
   //   res.redirect("/");
 });
 

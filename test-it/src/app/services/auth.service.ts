@@ -20,15 +20,15 @@ export class AuthService {
 
   login(email: string, password: string): void {
     // "username":"atuny0","password":"9uQFF1Lh"
-    // this.restApi.loginUser({ email, password }).subscribe((data: User) => {
-    //   console.log(data);
-    //   this.user = { name: 'Pesho' };
-    //   localStorage.setItem('user', JSON.stringify(this.user));
-    //   this.router.navigate(['/home']);
-    // });
-    this.user = { name: 'Pesho' };
-    localStorage.setItem('user', JSON.stringify(this.user));
-    this.router.navigate(['/home']);
+    this.restApi.loginUser({ email, password }).subscribe((data: User) => {
+      console.log(data);
+      this.user = { name: data.firstname };
+      localStorage.setItem('user', JSON.stringify(this.user));
+      this.router.navigate(['/home']);
+    });
+    // this.user = { name: 'Pesho' };
+    // localStorage.setItem('user', JSON.stringify(this.user));
+    // this.router.navigate(['/home']);
   }
 
   signup(): void {
@@ -38,6 +38,7 @@ export class AuthService {
   }
 
   logout(): void {
+    this.restApi.logoutUser();
     this.user = null;
     localStorage.removeItem('user');
     this.router.navigate(['/login']);
