@@ -1,0 +1,23 @@
+<h2>Test Play</h2>
+
+<div *ngIf="test">
+  <h3>{{ test.title }}</h3>
+
+  <div *ngFor="let question of test.questions">
+    <h4>{{ question.questionText }}</h4>
+    <div *ngFor="let answer of question.answers; let answerIndex = index">
+      <label>
+        <input
+          type="checkbox"
+          [name]="'question-' + question.id"
+          [value]="answerIndex"
+          (change)="selectAnswer(question.id, answerIndex)"
+          [checked]="isAnswerSelected(question.id, answerIndex)"
+        />
+        {{ answer.text }}
+      </label>
+    </div>
+  </div>
+
+  <button (click)="submitTest()">Submit</button>
+</div>

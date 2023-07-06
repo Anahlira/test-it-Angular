@@ -5,6 +5,7 @@ import {
   TestEditComponent,
 } from './components';
 import { AuthDeactivate } from '../guards';
+import { PlayTestComponent } from './components/play-test/play-test.component';
 
 const routes: Routes = [
   {
@@ -17,14 +18,21 @@ const routes: Routes = [
     component: TestsListComponent,
   },
   {
-    path: ":id",
+    path: ':id',
     component: TestDetailComponent,
-    title: "App | Test",
+    title: 'App | Test',
   },
   {
-    path: ":id/edit",
+    path: ':id/edit',
     component: TestEditComponent,
-    title: "App | TestEdit",
+    title: 'App | TestEdit',
+    canDeactivate: [AuthDeactivate],
+  },
+
+  {
+    path: ':id/play',
+    component: PlayTestComponent,
+    title: 'App | PlayTest',
     canDeactivate: [AuthDeactivate],
   },
 ];

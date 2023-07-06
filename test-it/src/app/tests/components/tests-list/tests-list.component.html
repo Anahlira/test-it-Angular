@@ -3,7 +3,7 @@
     <a [routerLink]="['..', test._id]">{{ test.title }} </a>
     <button [routerLink]="['..', test._id]">View test</button>
     <button [routerLink]="['..', test._id]">Edit test</button>
-    <button [routerLink]="['..', test._id]">Start test</button>
+    <button [routerLink]="['..', test._id, 'play']">Start test</button>
     <button (click)="deleteTest(test)">Delete test</button>
   </li>
 </ul>
