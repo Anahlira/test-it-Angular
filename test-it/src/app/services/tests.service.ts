@@ -54,9 +54,11 @@ export class TestsService {
   }
 
   deleteTest(id: string): void {
-    this.restApi.deleteTestById(id).subscribe();
+    this.restApi.deleteTestById(id).subscribe(() => {
+      this.tests$ = this.loadTests();
+    });
     //not reloading list?
-    this.tests$ = this.loadTests();
+    // this.tests$ = this.loadTests();
   }
 }
 
