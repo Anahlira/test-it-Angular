@@ -1,23 +1,31 @@
-<h2>Test Play</h2>
+<h2>Test Player</h2>
 
 <div *ngIf="test">
   <h3>{{ test.title }}</h3>
 
-  <div *ngFor="let question of test.questions">
-    <h4>{{ question.questionText }}</h4>
-    <div *ngFor="let answer of question.answers; let answerIndex = index">
-      <label>
-        <input
-          type="checkbox"
-          [name]="'question-' + question.id"
-          [value]="answerIndex"
-          (change)="selectAnswer(question.id, answerIndex)"
-          [checked]="isAnswerSelected(question.id, answerIndex)"
-        />
-        {{ answer.text }}
-      </label>
+  <form [formGroup]="form" (ngSubmit)="submitTest()">
+    <div *ngFor="let question of test.questions; let i = index">
+      <h4>{{ question.questionText }}</h4>
+      <div *ngFor="let answer of question.answers; let j = index">
+        <label [ngClass]="getAnswerClass(i, j)">
+          <input
+            type="checkbox"
+            [name]="'question-' + question.id"
+            [value]="j"
+            (change)="selectAnswer(question.id, j)"
+            [checked]="isAnswerSelected(question.id, j)"
+            [disabled]="!!result"
+          />
+          {{ answer.text }}
+        </label>
+      </div>
     </div>
-  </div>
 
-  <button (click)="submitTest()">Submit</button>
+    <div class="button-container">
+      <button type="submit" [disabled]="!!result">Submit</button>
+      <button type="button" (click)="resetForm()" [disabled]="!result">
+        Retry
+      </button>
+    </div>
+  </form>
 </div>

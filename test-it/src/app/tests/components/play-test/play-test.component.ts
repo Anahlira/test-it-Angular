@@ -107,4 +107,29 @@ export class PlayTestComponent implements OnInit {
       );
     }
   }
+
+  getAnswerClass(questionIndex: number, answerIndex: number): string {
+    if (!this.result) {
+      return '';
+    }
+
+    const questionResult = this.result[questionIndex];
+    const selectedAnswers = this.answers[questionIndex];
+    const isCorrect = questionResult && questionResult.correct;
+    const isSelected = this.isAnswerSelected(questionResult.id, answerIndex);
+
+    if (isCorrect && isSelected) {
+      return 'correct-answer';
+    } else if (!isCorrect && isSelected) {
+      return 'incorrect-answer';
+    } else {
+      return '';
+    }
+  }
+
+  resetForm(): void {
+    this.form.reset();
+    this.answers = {};
+    this.result = undefined;
+  }
 }
