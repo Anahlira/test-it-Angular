@@ -1,3 +1,5 @@
+<button [routerLink]="['..', 'list']">Back to all tests</button>
+
 <div *ngIf="test$ | async as test">
   <div *ngIf="!test">
     <p>Test does not exist</p>

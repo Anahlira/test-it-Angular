@@ -14,7 +14,11 @@ export class TestsListComponent {
     return this.testsService.tests$;
   }
 
-  handleTestClick(user: ITest) {
-    this.selectedTest = user;
+  handleTestClick(test: ITest) {
+    this.selectedTest = test;
+  }
+
+  deleteTest(test: ITest) {
+    this.testsService.deleteTest(test?._id || '');
   }
 }

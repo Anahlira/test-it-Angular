@@ -4,5 +4,6 @@
     <button [routerLink]="['..', test._id]">View test</button>
     <button [routerLink]="['..', test._id]">Edit test</button>
     <button [routerLink]="['..', test._id]">Start test</button>
+    <button (click)="deleteTest(test)">Delete test</button>
   </li>
 </ul>

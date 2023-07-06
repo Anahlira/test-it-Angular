@@ -52,6 +52,11 @@ export class TestsService {
       })
     );
   }
+
+  deleteTest(id: string): void {
+    this.restApi.deleteTestById(id).subscribe();
+    //not reloading list?
+  }
 }
 
 // const tests: ITest[] = [

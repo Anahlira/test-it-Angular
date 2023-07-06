@@ -75,6 +75,15 @@ export class RestApiService {
       .get<ITest>(`http://localhost:3000/tests/${id}`, this.httpOptions)
       .pipe(retry(1), catchError(this.handleError));
   }
+
+  deleteTestById(id: string): Observable<ITest> {
+    return this.http.delete<ITest>(
+      `http://localhost:3000/tests/${id}`,
+      this.httpOptions
+    );
+    //.pipe(retry(1), catchError(this.handleError));
+  }
+
   // Error handling
   handleError(error: any) {
     let errorMessage = '';
