@@ -31,10 +31,15 @@ export class AuthService {
     // this.router.navigate(['/home']);
   }
 
-  signup(): void {
-    // DO sth here
-    this.user = { name: 'Pesho' };
-    localStorage.setItem('user', JSON.stringify(this.user));
+  signup(user: User): void {
+    this.restApi.createUser(user).subscribe((data: User) => {
+      console.log(data);
+      this.user = { name: data.firstname };
+      localStorage.setItem('user', JSON.stringify(this.user));
+      this.router.navigate(['/home']);
+    });
+    // this.user = { name: 'Pesho' };
+    // localStorage.setItem('user', JSON.stringify(this.user));
   }
 
   logout(): void {

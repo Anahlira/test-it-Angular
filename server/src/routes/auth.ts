@@ -45,19 +45,19 @@ routerAuth.post("/login", async (req, res) => {
 routerAuth.post("/register", async (req, res) => {
   const user = req.body;
   if (!user.email) {
-    res.status(401).send("User needs a valid email!");
+    res.status(400).send("User needs a valid email!");
     return;
   } else if (!user.username) {
-    res.status(401).send("User needs a username");
+    res.status(400).send("User needs a username");
     return;
   } else if (!user.firstname) {
-    res.status(401).send("User needs a firstname");
+    res.status(400).send("User needs a firstname");
     return;
   } else if (!user.lastname) {
-    res.status(401).send("User needs a lastname");
+    res.status(400).send("User needs a lastname");
     return;
   } else if (!user.password) {
-    res.status(401).send("User needs a password");
+    res.status(400).send("User needs a password");
     return;
   }
 

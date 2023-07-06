@@ -26,8 +26,8 @@ export class RestApiService {
   createUser(User: User): Observable<User> {
     return this.http
       .post<User>(
-        this.apiURL + '/Users',
-        JSON.stringify({ User }),
+        this.apiURL + '/auth/register',
+        JSON.stringify(User),
         this.httpOptions
       )
       .pipe(retry(1), catchError(this.handleError));
@@ -47,7 +47,7 @@ export class RestApiService {
   logoutUser(): Observable<boolean> {
     console.log('loggging out');
     //not calling this???
-    
+
     return this.http
       .post<boolean>(this.apiURL + '/auth/logout', {}, this.httpOptions)
       .pipe(retry(1), catchError(this.handleError));

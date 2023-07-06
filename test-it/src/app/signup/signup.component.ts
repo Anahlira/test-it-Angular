@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { containsValidator } from '../shared/contains.directive';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { User } from '../shared/user';
 
 @Component({
   selector: 'app-signup',
@@ -20,21 +21,20 @@ export class SignupComponent {
       [],
     ],
     username: ['', [Validators.required, Validators.minLength(4)], []],
-    firstName: ['', [Validators.required], []],
-    lastName: ['', [Validators.required], []],
+    firstname: ['', [Validators.required], []],
+    lastname: ['', [Validators.required], []],
     password: ['', [Validators.required], []],
   });
 
   constructor(private router: Router, private authService: AuthService) {}
 
   signup(): void {
-    console.log(this.form);
+    // console.log(this.form.value);
     // todo here perform signup
     if (this.form.valid) {
-      this.authService.signup();
+      this.authService.signup(this.form.value as User);
 
       this.form.reset();
-      this.router.navigate(['/home']);
     }
   }
 
