@@ -78,6 +78,7 @@ export class PlayTestComponent implements OnInit {
     }));
 
     console.log(this.result);
+    console.log(this.test);
   }
 
   isQuestionCorrect(questionId: any): boolean {
@@ -91,16 +92,12 @@ export class PlayTestComponent implements OnInit {
     if (!question || !selectedAnswers || selectedAnswers.length === 0) {
       return false;
     }
-    
+
     console.log(question.correctAnswers, this.answers[questionId]);
     if (Array.isArray(question.correctAnswers)) {
       return (
         selectedAnswers.length === question.correctAnswers.length &&
-        selectedAnswers.every(
-          (answer) =>
-            Array.isArray(question.correctAnswers) &&
-            question.correctAnswers.includes(answer)
-        )
+        selectedAnswers.every((answer) => question.answers[answer].correct)
       );
     } else {
       return (
@@ -116,17 +113,22 @@ export class PlayTestComponent implements OnInit {
     }
 
     const questionResult = this.result[questionIndex];
-    const selectedAnswers = this.answers[questionIndex];
-    const isCorrect = questionResult && questionResult.correct;
+
+    const isQuestionCorrectCorrect = questionResult && questionResult.correct;
     const isSelected = this.isAnswerSelected(questionResult.id, answerIndex);
 
-    if (isCorrect && isSelected) {
+    const isCorrectOverall =
+      this.test?.questions[questionIndex].answers[answerIndex].correct;
+
+    if (isCorrectOverall && isSelected) {
       return 'correct-answer';
-    } else if (!isCorrect && isSelected) {
+    } else if (!isCorrectOverall && isSelected) {
       return 'incorrect-answer';
-    } else {
-      return '';
+    } else if (isCorrectOverall && !isSelected) {
+      return 'notselected-correct-answer';
     }
+
+    return '';
   }
 
   resetForm(): void {
