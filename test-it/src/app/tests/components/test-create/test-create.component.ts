@@ -75,7 +75,7 @@ export class TestCreateComponent {
         // Filter the empty answers
         const answers = element.answers
           .filter((el: IAnswer) => el.text !== '')
-          .map((answer: any, id: number) => ({
+          .map((answer: Omit<IAnswer, 'id'>, id: number) => ({
             id: id + 1,
             ...answer,
           }));
@@ -85,7 +85,9 @@ export class TestCreateComponent {
           questionText: element.questionText,
           type: element.multipleChoice ? 'mc' : 'radio',
           answers: answers,
-          correctAnswers: [1],
+          correctAnswers: answers
+            .filter((el: IAnswer) => el.correct)
+            .map((el: IAnswer) => el.id),
         };
       }
     );
