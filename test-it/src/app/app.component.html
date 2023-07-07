@@ -1,9 +1,12 @@
 <nav>
-  <div *ngIf="isLoggedIn" class="routes">
-    <a routerLink="/home">Home</a>
-    <a routerLink="/tests">Tests</a>
-    <a routerLink="/test-create">Create test</a>
+  <div *ngIf="isLoggedIn" class="route">
+    <div class="route-buttons">
+      <button routerLink="/home"><a>Home</a></button>
+      <button routerLink="/tests"><a>Tests</a></button>
+      <button routerLink="/my-tests"><a>My Tests</a></button>
+      <button routerLink="/test-create"><a>Create test</a></button>
+    </div>
+    <button (click)="logout()" class="logout">Logout</button>
   </div>
 </nav>
-<div *ngIf="isLoggedIn"><button (click)="logout()">Logout</button></div>
 <router-outlet></router-outlet>

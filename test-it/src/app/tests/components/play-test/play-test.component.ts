@@ -82,6 +82,7 @@ export class PlayTestComponent implements OnInit {
 
   isQuestionCorrect(questionId: any): boolean {
     const selectedAnswers = this.answers[questionId];
+
     if (!this.test) {
       return false;
     }
@@ -90,6 +91,7 @@ export class PlayTestComponent implements OnInit {
     if (!question || !selectedAnswers || selectedAnswers.length === 0) {
       return false;
     }
+    
     console.log(question.correctAnswers, this.answers[questionId]);
     if (Array.isArray(question.correctAnswers)) {
       return (
