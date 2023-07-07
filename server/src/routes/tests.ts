@@ -93,6 +93,32 @@ routerTests.post("/", async (req, res) => {
   res.send(document);
 });
 
+//modify
+routerTests.patch("/:testid", async (req, res) => {
+  const dbConn = getConnection();
+  const dbTests = dbConn.collection("tests");
+
+  console.log(req.body);
+
+  const isPublic = req.body.visibility === "private" ? 0 : 1;
+  const document = req.body;
+  document["last_modified"] = new Date();
+
+  const updates = {
+    $set: document,
+  };
+
+  const query = { _id: makeId(req.params.testid) };
+
+  await Promise.resolve(dbTests.updateOne(query, updates))
+    .then((data) => console.log(data))
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send("Error inserting document");
+    });
+  res.send(document);
+});
+
 //delete specific test
 routerTests.delete("/:testid", async (req, res) => {
   const dbConn = getConnection();
