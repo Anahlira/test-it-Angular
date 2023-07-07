@@ -1,40 +1,31 @@
-<!-- <form [formGroup]="form" (ngSubmit)="submitFormHandler()">
-  <div class="input-group">
-    <label for="name">Name</label>
-    <input
-      id="name"
-      type="text"
-      name="name"
-      formControlName="name"
-      changeTracker
-      [initialValue]="user?.name"
-    />
+<h2>Edit Test</h2>
+<form *ngIf="test$ | async as test" [formGroup]="form" (ngSubmit)="saveTest()">
+    <div *ngIf="!test">
+      <p>Test does not exist</p>
+    </div>
+
+  <label>Title:</label>
+  <input formControlName="title" type="text" [(ngModel)]="test.title" />
+
+  <label>Private:</label>
+  <input *ngIf="test.visibility" formControlName="private" type="checkbox" />
+  <input *ngIf="!test.visibility" formControlName="private" type="checkbox" [(ngModel)]="test.visibility"/>
+
+
+  <hr />
+
+  <h3>Questions</h3>
+
+  <div *ngFor="let question of test.questions">
+    <label>Question {{ question.id }}. </label>
+    <input  type="text" [value]="question.questionText" />
+    <label>Multiple Choice:</label>
+    <input type="checkbox" [checked]="question.type === 'mc'"/>
+
+    <div *ngFor="let answer of question.answers">
+      <p>{{ answer.id }}. {{ answer.text }}</p>
+    </div>
   </div>
-  <div class="input-group">
-    <label for="email">Email</label>
-    <input
-      id="email"
-      type="text"
-      name="email"
-      formControlName="email"
-      changeTracker
-      [initialValue]="user?.email"
-    />
-  </div>
-  <div class="input-group">
-    <label for="age">Testname</label>
-    <input
-      id="username"
-      type="text"
-      name="username"
-      [formControl]="getFormControl('username')"
-      changeTracker
-      [initialValue]="user?.username"
-    />
-  </div>
-  <button [disabled]="form.invalid">Save</button>
-  <button [disabled]="form.invalid" (click)="handleTestInfoReset()">
-    Reset
-  </button>
-</form> -->
-<p>Edit works</p>
+
+  <button type="submit">Save Test</button>
+</form>
