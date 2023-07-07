@@ -54,6 +54,35 @@ export class TestEditComponent {
     console.log(this.form);
   }
 
+  createAnswerGroup() {
+    return this.formBuilder.group({
+      text: '',
+      correct: false,
+    });
+  }
+
+  get questionGroups() {
+    return this.form.get('questions') as FormArray;
+  }
+  answerGroups(index: number) {
+    return this.questionGroups.controls[index].get('answers') as FormArray;
+  }
+  addAnswer(questionIndex: number) {
+    console.log('add', this.answerGroups(questionIndex));
+    this.answerGroups(questionIndex).push(this.createAnswerGroup());
+  }
+
+  removeAnswer(questionIndex: number, answerIndex: number) {
+    this.answerGroups(questionIndex).removeAt(answerIndex);
+  }
+
+  updateCorrectAnswer(question: any, selectedAnswerIndex: number) {
+    const answerGroups = question.get('answers') as FormArray;
+    answerGroups.controls.forEach((answerGroup: any, index: number) => {
+      answerGroup.get('correct').setValue(index === selectedAnswerIndex);
+    });
+  }
+
   saveTest() {
     console.log(this.form.value);
   }

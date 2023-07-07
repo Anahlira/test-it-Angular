@@ -16,14 +16,38 @@
 
   <h3>Questions</h3>
   <div formArrayName="questions">
-    <div *ngFor="let question of test.questions; let i = index" [formGroupName]="i" >
-      <label>Question {{ question.id }}. </label>
-      <input formControlName="questionText" type="text" [value]="question.questionText" />
+    <div *ngFor="let question of questionGroups.controls; let i = index" [formGroupName]="i" >
+      <label>Question {{ i }}. </label>
+      <input formControlName="questionText" type="text" [value]="question.value.questionText" />
       <label>Multiple Choice:</label>
-      <input formControlName="type" type="checkbox" [checked]="question.type === 'mc'"/>
+      <input formControlName="type" type="checkbox" [checked]="question.value.type === 'mc'"/>
 
-      <div *ngFor="let answer of question.answers">
-        <p>{{ answer.id }}. {{ answer.text }}</p>
+      <br/>
+
+      <label>Answers:</label>
+      <div formArrayName="answers">
+        <div *ngFor="let answer of answerGroups(i).controls; let j = index"
+          [formGroupName]="j">
+          <label>{{ j }}. </label>
+          <input formControlName="text" type="text" [(ngModel)]="answer.value.text" />
+      
+          <ng-container *ngIf="question.value.type === 'radio'">
+            <input name="answer._id" 
+            type="radio" [value]="j" 
+            [checked]="answer.value.correct" 
+            (change)="updateCorrectAnswer(question, j)"/>
+            <span>Correct Answer</span>
+          </ng-container>
+          <ng-container *ngIf="question.value.type === 'mc'">
+            <input type="checkbox" formControlName="correct" />
+            <span>Correct Answer</span>
+          </ng-container>
+
+          <button type="button" (click)="removeAnswer(i, j)">
+            Remove answer
+          </button>
+        </div>
+        <button type="button" (click)="addAnswer(i)">Add Answer</button>
       </div>
     </div>
   </div>
