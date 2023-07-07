@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map, of } from 'rxjs';
 import { RestApiService } from '../shared/rest-api.service';
+import { AuthService } from './auth.service';
 
 export interface IAnswer {
   id: number;
@@ -29,13 +30,25 @@ export interface ITest {
 })
 export class TestsService {
   tests$: Observable<ITest[]> = new BehaviorSubject<ITest[]>([]);
+  customerTests$: Observable<ITest[]> = new BehaviorSubject<ITest[]>([]);
 
-  constructor(private http: HttpClient, private restApi: RestApiService) {
+  constructor(
+    private http: HttpClient,
+    private restApi: RestApiService,
+    private authServise: AuthService
+  ) {
     this.tests$ = this.loadTests();
+    this.customerTests$ = this.loadCustomerTests();
   }
 
   loadTests(): Observable<ITest[]> {
     return this.restApi.getTests();
+  }
+
+  loadCustomerTests(): Observable<ITest[]> {
+    return this.authServise?.user?._id
+      ? this.restApi.getCustomerTests(this.authServise.user._id)
+      : of([]);
   }
 
   getTest(id: string): Observable<ITest> {
@@ -62,59 +75,5 @@ export class TestsService {
     this.restApi.deleteTestById(id).subscribe(() => {
       this.tests$ = this.loadTests();
     });
-    //not reloading list?
-    // this.tests$ = this.loadTests();
   }
 }
-
-// const tests: ITest[] = [
-//   {
-//     id: 1,
-//     ownerId: 123,
-//     title: 'Test 1',
-//     questions: [
-//       {
-//         id: 1,
-//         questionText: 'Q1',
-//         type: 'radio',
-//         answers: [
-//           { id: 1, text: 'Option A' },
-//           { id: 2, text: 'Option B' },
-//           { id: 3, text: 'Option C' },
-//         ],
-//         correctAnswers: [1],
-//       },
-//       {
-//         id: 2,
-//         questionText: 'Q2',
-//         type: 'mc',
-//         answers: [
-//           { id: 1, text: 'Option A' },
-//           { id: 2, text: 'Option B' },
-//           { id: 3, text: 'Option C' },
-//         ],
-//         correctAnswers: [1],
-//       },
-//     ],
-//     visibility: 'public',
-//   },
-//   {
-//     id: 2,
-//     ownerId: 456,
-//     title: 'Test 2',
-//     questions: [
-//       {
-//         id: 1,
-//         questionText: 'Q1',
-//         type: 'radio',
-//         answers: [
-//           { id: 1, text: 'Option X' },
-//           { id: 2, text: 'Option Y' },
-//           { id: 3, text: 'Option Z' },
-//         ],
-//         correctAnswers: [1],
-//       },
-//     ],
-//     visibility: 'private',
-//   },
-// ];

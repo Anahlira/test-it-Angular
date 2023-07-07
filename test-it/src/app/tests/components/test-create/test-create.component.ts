@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
 import { IAnswer, IQuestion, ITest } from 'src/app/services/tests.service';
 import { RestApiService } from 'src/app/shared/rest-api.service';
 
@@ -13,7 +14,8 @@ export class TestCreateComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    public restApi: RestApiService
+    private restApi: RestApiService,
+    private authService: AuthService
   ) {
     this.form = this.formBuilder.group({
       title: '',
@@ -93,7 +95,7 @@ export class TestCreateComponent {
     );
 
     const myTest: ITest = {
-      ownerId: 1,
+      ownerId: this.authService.user?._id,
       title: this.form.value.title,
       questions: questions,
       visibility: 'public',

@@ -45,6 +45,14 @@ const routes: Routes = [
   },
 
   {
+    path: 'my-tests',
+    loadChildren: () =>
+      import('./tests/tests.module').then((m) => m.TestsModule),
+    title: 'App | My Test Detail',
+    canActivate: [AuthActivate],
+  },
+
+  {
     path: 'test-create',
     component: TestCreateComponent,
     title: 'App | Create test',

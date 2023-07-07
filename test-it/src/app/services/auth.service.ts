@@ -5,7 +5,7 @@ import { User } from '../shared/user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  user: {} | null = null;
+  user: User | null = null;
 
   constructor(private router: Router, public restApi: RestApiService) {
     this.authenticate();
@@ -19,33 +19,26 @@ export class AuthService {
   }
 
   login(email: string, password: string): void {
-    // "username":"atuny0","password":"9uQFF1Lh"
     this.restApi.loginUser({ email, password }).subscribe((data: User) => {
-      console.log(data);
-      this.user = { name: data.firstname };
+      this.user = data;
       localStorage.setItem('user', JSON.stringify(this.user));
       this.router.navigate(['/home']);
     });
-    // this.user = { name: 'Pesho' };
-    // localStorage.setItem('user', JSON.stringify(this.user));
-    // this.router.navigate(['/home']);
   }
 
   signup(user: User): void {
     this.restApi.createUser(user).subscribe((data: User) => {
-      console.log(data);
-      this.user = { name: data.firstname };
+      this.user = data;
       localStorage.setItem('user', JSON.stringify(this.user));
       this.router.navigate(['/home']);
     });
-    // this.user = { name: 'Pesho' };
-    // localStorage.setItem('user', JSON.stringify(this.user));
   }
 
   logout(): void {
-    this.restApi.logoutUser();
-    this.user = null;
-    localStorage.removeItem('user');
-    this.router.navigate(['/login']);
+    this.restApi.logoutUser().subscribe(() => {
+      this.user = null;
+      localStorage.removeItem('user');
+      this.router.navigate(['/login']);
+    });
   }
 }

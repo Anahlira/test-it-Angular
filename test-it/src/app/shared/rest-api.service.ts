@@ -36,8 +36,7 @@ export class RestApiService {
   loginUser(User: LoginUser): Observable<User> {
     return this.http
       .post<User>(
-        // this.apiURL + '/Users',
-        this.apiURL + '/auth/login', //'https://dummyjson.com/auth/login',
+        this.apiURL + '/auth/login',
         JSON.stringify({ email: User.email, password: User.password }),
         this.httpOptions
       )
@@ -55,36 +54,37 @@ export class RestApiService {
 
   createTest(test: ITest): Observable<ITest> {
     return this.http
-      .post<ITest>(
-        // this.apiURL + '/Users',
-        'http://localhost:3000/tests',
-        test,
-        this.httpOptions
-      )
+      .post<ITest>(this.apiURL + '/tests', test, this.httpOptions)
       .pipe(retry(1), catchError(this.handleError));
   }
 
   getTests(): Observable<ITest[]> {
     return this.http
-      .get<ITest[]>('http://localhost:3000/tests', this.httpOptions)
+      .get<ITest[]>(this.apiURL + '/tests', this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
+  getCustomerTests(customerId: number): Observable<ITest[]> {
+    return this.http
+      .get<ITest[]>(this.apiURL + `/tests/user/${customerId}`, this.httpOptions)
       .pipe(retry(1), catchError(this.handleError));
   }
 
   getTestById(id: string): Observable<ITest> {
     return this.http
-      .get<ITest>(`http://localhost:3000/tests/${id}`, this.httpOptions)
+      .get<ITest>(this.apiURL + `/tests/${id}`, this.httpOptions)
       .pipe(retry(1), catchError(this.handleError));
   }
 
   deleteTestById(id: string): Observable<ITest> {
     return this.http
-      .delete<ITest>(`http://localhost:3000/tests/${id}`, this.httpOptions)
+      .delete<ITest>(this.apiURL + `/tests/${id}`, this.httpOptions)
       .pipe(retry(1), catchError(this.handleError));
   }
 
   updateTestById(id: string, body: ITest): Observable<ITest> {
     return this.http
-      .patch<ITest>(`http://localhost:3000/tests/${id}`, body, this.httpOptions)
+      .patch<ITest>(this.apiURL + `/tests/${id}`, body, this.httpOptions)
       .pipe(retry(1), catchError(this.handleError));
   }
 
