@@ -5,7 +5,7 @@
     </div>
 
   <label>Title:</label>
-  <input formControlName="title" type="text" [(ngModel)]="test.title" />
+  <input formControlName="title" type="text" [(ngModel)]="test.title" initialValue="test.title" changeTracker/>
 
   <label>Private:</label>
   <input *ngIf="test.visibility" formControlName="private" type="checkbox" />
@@ -18,9 +18,10 @@
   <div formArrayName="questions">
     <div *ngFor="let question of questionGroups.controls; let i = index" [formGroupName]="i" >
       <label>Question {{ i }}. </label>
-      <input formControlName="questionText" type="text" [value]="question.value.questionText" />
+      <input formControlName="questionText" type="text" [value]="question.value.questionText"  />
       <label>Multiple Choice:</label>
       <input formControlName="type" type="checkbox" [checked]="question.value.type === 'mc'"/>
+
 
       <br/>
 

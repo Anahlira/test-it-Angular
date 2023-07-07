@@ -14,6 +14,9 @@ import { containsValidator } from 'src/app/shared/contains.directive';
 export class TestEditComponent {
   form: FormGroup;
   test$: Observable<ITest> | undefined = undefined;
+
+  @ViewChildren(ChangeDirective) changes: ChangeDirective[] = [];
+
   constructor(
     private router: Router,
     private testsService: TestsService,
@@ -28,11 +31,17 @@ export class TestEditComponent {
       this.activatedRoute.snapshot.params['id']
     );
 
-    this.test$.subscribe((t) => {
+    this.createForm();
+
+    console.log(this.form);
+  }
+
+  createForm() {
+    this.test$?.subscribe((t) => {
       console.log(t);
       this.form = this.formBuilder.group({
-        title: '',
-        private: false,
+        title: t?.title,
+        private: t?.visibility,
         questions: this.formBuilder.array(
           t.questions.map((q) => {
             return this.formBuilder.group({
@@ -51,8 +60,6 @@ export class TestEditComponent {
         ),
       });
     });
-
-    console.log(this.form);
   }
 
   createAnswerGroup() {
@@ -95,6 +102,23 @@ export class TestEditComponent {
         console.log(data);
       });
 
-    this.router.navigateByUrl('../../list');
+    // this.form.reset();
+    // this.createForm();
+    console.log(this.changes);
+  }
+
+  canDeactivate() {
+    let exit = true;
+
+    this.changes.forEach((change) => {
+      if (!change.isPristine()) {
+        exit = false;
+        return;
+      }
+    });
+
+    if (!exit)
+      return confirm('You have unsaved changes. Do you want to leave?');
+    return true;
   }
 }

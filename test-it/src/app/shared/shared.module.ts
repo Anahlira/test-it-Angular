@@ -1,15 +1,11 @@
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { ContainsDirective } from "./contains.directive";
-
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ContainsDirective } from './contains.directive';
+import { ChangeDirective } from './change.directive';
 
 @NgModule({
-  declarations: [
-    ContainsDirective,
-  ],
+  declarations: [ContainsDirective, ChangeDirective],
   imports: [CommonModule],
-  exports: [
-    ContainsDirective,
-  ],
+  exports: [ContainsDirective, ChangeDirective],
 })
 export class SharedModule {}
