@@ -15,17 +15,17 @@
   <hr />
 
   <h3>Questions</h3>
+  <div formArrayName="questions">
+    <div *ngFor="let question of test.questions; let i = index" [formGroupName]="i" >
+      <label>Question {{ question.id }}. </label>
+      <input formControlName="questionText" type="text" [value]="question.questionText" />
+      <label>Multiple Choice:</label>
+      <input formControlName="type" type="checkbox" [checked]="question.type === 'mc'"/>
 
-  <div *ngFor="let question of test.questions">
-    <label>Question {{ question.id }}. </label>
-    <input  type="text" [value]="question.questionText" />
-    <label>Multiple Choice:</label>
-    <input type="checkbox" [checked]="question.type === 'mc'"/>
-
-    <div *ngFor="let answer of question.answers">
-      <p>{{ answer.id }}. {{ answer.text }}</p>
+      <div *ngFor="let answer of question.answers">
+        <p>{{ answer.id }}. {{ answer.text }}</p>
+      </div>
     </div>
   </div>
-
   <button type="submit">Save Test</button>
 </form>

@@ -6,6 +6,7 @@ import { RestApiService } from '../shared/rest-api.service';
 export interface IAnswer {
   id: number;
   text: string;
+  correct?: boolean;
 }
 export interface IQuestion {
   id: number;
