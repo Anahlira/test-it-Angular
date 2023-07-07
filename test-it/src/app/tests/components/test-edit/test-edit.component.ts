@@ -1,6 +1,6 @@
 import { Component, ViewChildren, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { ITest, TestsService } from 'src/app/services/tests.service';
 import { ChangeDirective } from 'src/app/shared/change.directive';
@@ -15,6 +15,7 @@ export class TestEditComponent {
   form: FormGroup;
   test$: Observable<ITest> | undefined = undefined;
   constructor(
+    private router: Router,
     private testsService: TestsService,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder
@@ -85,5 +86,15 @@ export class TestEditComponent {
 
   saveTest() {
     console.log(this.form.value);
+    this.testsService
+      .editTest(
+        this.activatedRoute.snapshot.params['id'],
+        this.form.value as ITest
+      )
+      .subscribe((data: ITest) => {
+        console.log(data);
+      });
+
+    this.router.navigateByUrl('../../list');
   }
 }

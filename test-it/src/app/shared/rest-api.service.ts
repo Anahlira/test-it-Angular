@@ -82,6 +82,12 @@ export class RestApiService {
       .pipe(retry(1), catchError(this.handleError));
   }
 
+  updateTestById(id: string, body: ITest): Observable<ITest> {
+    return this.http
+      .patch<ITest>(`http://localhost:3000/tests/${id}`, body, this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
   // Error handling
   handleError(error: any) {
     let errorMessage = '';

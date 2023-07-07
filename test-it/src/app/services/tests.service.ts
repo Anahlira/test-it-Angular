@@ -54,6 +54,10 @@ export class TestsService {
     );
   }
 
+  editTest(id: string, body: ITest): Observable<ITest> {
+    return this.restApi.updateTestById(id, body);
+  }
+
   deleteTest(id: string): void {
     this.restApi.deleteTestById(id).subscribe(() => {
       this.tests$ = this.loadTests();
