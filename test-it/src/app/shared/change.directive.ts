@@ -1,8 +1,8 @@
-import { Directive, ElementRef, Input } from "@angular/core";
+import { Directive, ElementRef, Input } from '@angular/core';
 
 @Directive({
-  selector: "[changeTracker]",
-  exportAs: "changeTracker",
+  selector: '[changeTracker]',
+  exportAs: 'changeTracker',
 })
 export class ChangeDirective {
   @Input() initialValue: string | undefined;
