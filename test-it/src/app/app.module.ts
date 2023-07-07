@@ -8,9 +8,10 @@ import { SharedModule } from './shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SignupComponent } from './signup/signup.component';
+import { QuestionExtractorComponent } from './question-extractor/question-extractor.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, SignupComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, SignupComponent, QuestionExtractorComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

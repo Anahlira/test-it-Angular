@@ -1,0 +1,15 @@
+<h2>Question Extractor</h2>
+<form [formGroup]="form">
+  <div>
+    <label for="textInput">Text:</label>
+    <textarea
+      id="textInput"
+      type="text"
+      name="textInput"
+      aria-multiline="true"
+      formControlName="textInput"
+    ></textarea>
+  </div>
+</form>
+
+<button (click)="extractQuestions()">Extract Questions</button>
