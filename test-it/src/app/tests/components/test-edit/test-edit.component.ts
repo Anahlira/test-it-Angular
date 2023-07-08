@@ -139,6 +139,10 @@ export class TestEditComponent {
     this.answerGroups(questionIndex).removeAt(answerIndex);
   }
 
+  removeQuestion(questionIndex: number) {
+    this.questionGroups.removeAt(questionIndex);
+  }
+
   updateCorrectAnswer(question: any, selectedAnswerIndex: number) {
     const answerGroups = question.get('answers') as FormArray;
     answerGroups.controls.forEach((answerGroup: any, index: number) => {
