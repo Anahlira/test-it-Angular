@@ -1,16 +1,24 @@
 <button [routerLink]="['..', 'list']">Back to all tests</button>
 
-<div *ngIf="test$ | async as test">
+<div *ngIf="test$ | async as test" id="test-component">
+  <div class="button-container">
+    <button *ngIf="isTestOwners" [routerLink]="['..', test._id, 'edit']">
+      Edit test
+    </button>
+    <button [routerLink]="['..', test._id, 'play']">Start test</button>
+    <button *ngIf="isTestOwners" (click)="deleteTest(test)">Delete test</button>
+  </div>
   <div *ngIf="!test">
     <p>Test does not exist</p>
   </div>
 
-  <p>{{ test.title }}</p>
-  <div *ngFor="let question of test.questions">
-    <p>{{ question.id }}. {{ question.questionText }}</p>
-    <div *ngFor="let answer of question.answers">
-      <p>{{ answer.id }}. {{ answer.text }}</p>
+  <h2 id="test-title">{{ test.title }}</h2>
+  <div *ngFor="let question of test.questions" id="test-question-component">
+    <p id="test-question-text">
+      Question {{ question.id }}. {{ question.questionText }}
+    </p>
+    <div *ngFor="let answer of question.answers" id="test-answers-component">
+      <p class="test-answer">{{ answer.id }}. {{ answer.text }}</p>
     </div>
   </div>
-  <!-- <button [routerLink]="['..', test.id, 'edit']">Edit test info</button> -->
 </div>

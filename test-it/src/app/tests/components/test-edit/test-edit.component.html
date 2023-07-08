@@ -1,39 +1,84 @@
-<h2>{{editTest}} test</h2>
-<form *ngIf="test$ | async as test" [formGroup]="form" (ngSubmit)="saveTest()">
-    <div *ngIf="!test">
-      <p>Test does not exist</p>
-    </div>
+<h2>{{ editTest }} test</h2>
+<form
+  *ngIf="test$ | async as test"
+  [formGroup]="form"
+  (ngSubmit)="saveTest()"
+  class="form-container"
+>
+  <div *ngIf="!test">
+    <p>Test does not exist</p>
+  </div>
 
-  <label>Title:</label>
-  <input formControlName="title" type="text" [(ngModel)]="test.title" initialValue="test.title" changeTracker/>
+  <div>
+    <label>Title:</label>
+    <input
+      formControlName="title"
+      type="text"
+      [(ngModel)]="test.title"
+      initialValue="test.title"
+      changeTracker
+    />
+  </div>
 
-  <label>Private:</label>
-  <input formControlName="private" type="checkbox" />
+  <div>
+    <label>Private:</label>
+    <input formControlName="private" type="checkbox" />
+  </div>
 
   <hr />
 
   <h3>Questions</h3>
-  <div formArrayName="questions">
-    <div *ngFor="let question of questionGroups.controls; let i = index" [formGroupName]="i" >
-      <label>Question {{ i + 1 }}. </label>
-      <input formControlName="questionText" type="text" [value]="question.value.questionText" initialValue="question.value.questionText" changeTracker/>
-      <label>Multiple Choice:</label>
-      <input formControlName="type" type="checkbox" [checked]="question.value.type === 'mc'" initialValue="question.value.type" changeTracker/>
+  <div formArrayName="questions" class="questions-container">
+    <div
+      *ngFor="let question of questionGroups.controls; let i = index"
+      [formGroupName]="i"
+    >
+      <div class="question-title-container">
+        <label>Question {{ i + 1 }}. </label>
+        <input
+          formControlName="questionText"
+          type="text"
+          [value]="question.value.questionText"
+          initialValue="question.value.questionText"
+          changeTracker
+        />
+      </div>
+      <div>
+        <label>Multiple Choice:</label>
+        <input
+          formControlName="type"
+          type="checkbox"
+          [checked]="question.value.type === 'mc'"
+          initialValue="question.value.type"
+          changeTracker
+        />
+      </div>
 
-      <br/>
+      <br />
 
       <label>Answers:</label>
       <div formArrayName="answers">
-        <div *ngFor="let answer of answerGroups(i).controls; let j = index"
-          [formGroupName]="j">
+        <div
+          *ngFor="let answer of answerGroups(i).controls; let j = index"
+          [formGroupName]="j"
+          class="answer-component"
+        >
           <label>{{ j + 1 }}. </label>
-          <input formControlName="text" type="text" [(ngModel)]="answer.value.text"  initialValue="answer.value.text" changeTracker/>
-      
+          <input
+            formControlName="text"
+            type="text"
+            [(ngModel)]="answer.value.text"
+            initialValue="answer.value.text"
+            changeTracker
+          />
+
           <ng-container *ngIf="!question.value.type">
-            <input  
-            type="radio" [value]="j" 
-            [checked]="answer.value.correct" 
-            (change)="updateCorrectAnswer(question, j)"/>
+            <input
+              type="radio"
+              [value]="j"
+              [checked]="answer.value.correct"
+              (change)="updateCorrectAnswer(question, j)"
+            />
             <span>Correct Answer</span>
           </ng-container>
           <ng-container *ngIf="question.value.type">
@@ -49,6 +94,6 @@
       </div>
     </div>
   </div>
-    <button type="button" (click)="addQuestion()">Add Question</button>
+  <button type="button" (click)="addQuestion()">Add Question</button>
   <button type="submit">Save Test</button>
 </form>

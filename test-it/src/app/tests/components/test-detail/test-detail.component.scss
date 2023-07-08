@@ -1,0 +1,64 @@
+h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+h3 {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+h4 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+#test-component {
+  display: flex;
+  flex-direction: column;
+  margin: 0 20px 20px;
+  padding: 20px;
+  background-color: #e7f3ff;
+  margin-top: 10px;
+}
+
+#test-question-text {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+#test-answers-component {
+  padding-left: 10px;
+}
+
+label {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.button-container {
+  text-align: center;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
