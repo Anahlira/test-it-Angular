@@ -13,6 +13,7 @@ export class PlayTestComponent implements OnInit {
   form: FormGroup;
   result: any[] | undefined;
   answers: { [questionId: number]: number[] } = {};
+  totalCorrectPoints: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -79,8 +80,9 @@ export class PlayTestComponent implements OnInit {
       correct: this.isQuestionCorrect(question.id),
     }));
 
-    console.log(this.result);
-    console.log(this.test);
+    this.totalCorrectPoints = this.result
+      ? this.result.filter((r) => r.correct).length
+      : 0;
   }
 
   isQuestionCorrect(questionId: any): boolean {

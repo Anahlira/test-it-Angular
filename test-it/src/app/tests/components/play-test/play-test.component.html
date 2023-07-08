@@ -4,6 +4,13 @@
   <h3>{{ test.title }}</h3>
 
   <form [formGroup]="form" (ngSubmit)="submitTest()">
+    <div *ngIf="result" class="result-container">
+      <p>
+        Correct questions: {{ totalCorrectPoints }} / total questions
+        {{ test.questions.length }}
+      </p>
+    </div>
+
     <div *ngFor="let question of test.questions; let i = index">
       <h4>{{ question.questionText }}</h4>
       <div *ngFor="let answer of question.answers; let j = index">
