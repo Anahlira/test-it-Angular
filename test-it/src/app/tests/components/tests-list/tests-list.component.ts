@@ -42,7 +42,10 @@ export class TestsListComponent {
 
   deleteTest(test: ITest) {
     const dialogRef = this.dialog.open(DialogComponent, {
-      data: { title: this.selectedTest?.title },
+      data: {
+        title: `Are you sure you want to delete ${this.selectedTest?.title}`,
+        confirmText: 'DELETE',
+      },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {

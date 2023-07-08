@@ -17,11 +17,7 @@ export class LoginComponent {
   form = this.formBuilder.group({
     email: [
       this.email,
-      [
-        Validators.required,
-        Validators.minLength(4),
-         containsValidator('@')
-      ],
+      [Validators.required, Validators.minLength(4), containsValidator('@')],
       ,
       [],
     ],
@@ -45,5 +41,9 @@ export class LoginComponent {
 
   goToSignUp(): void {
     this.router.navigateByUrl('/signup');
+  }
+
+  getFormControl(name: keyof typeof this.form.controls) {
+    return this.form.controls[name];
   }
 }

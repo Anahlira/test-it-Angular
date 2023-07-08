@@ -10,9 +10,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
 
 export interface DialogData {
   title: string;
+  confirmText: string;
 }
 
 @Component({
@@ -26,6 +29,7 @@ export interface DialogData {
     MatInputModule,
     FormsModule,
     MatButtonModule,
+    CommonModule,
   ],
 })
 export class DialogComponent {

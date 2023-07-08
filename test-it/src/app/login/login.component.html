@@ -7,8 +7,17 @@
       type="email"
       name="email"
       formControlName="email"
-      required
+      required      
     />
+    <div *ngIf="getFormControl('email').touched && getFormControl('email').invalid">
+        <div *ngIf="getFormControl('email').getError('required')">This field is required</div>
+        <div *ngIf="getFormControl('email').getError('minlength'); let minlength">Min length is
+          {{minlength.requiredLength}} and the
+          current length is {{minlength.actualLength}}</div>
+        <div *ngIf="getFormControl('email').getError('mustContain'); let mustContainError;">Field must contain
+          {{mustContainError}}
+        </div>
+    </div>
   </div>
   <div>
     <label for="password">Password:</label>
@@ -19,6 +28,9 @@
       formControlName="password"
       required
     />
+        <div *ngIf="getFormControl('password').touched && getFormControl('password').invalid">
+          <div *ngIf="getFormControl('password').getError('required')">This field is required</div>
+        </div>
   </div>
   <button type="submit" [disabled]="form.invalid">Login</button>
   <button type="button" class="signup-button" (click)="goToSignUp()">
