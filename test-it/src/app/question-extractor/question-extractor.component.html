@@ -1,7 +1,15 @@
 <h2>Question Extractor</h2>
-<form [formGroup]="form">
+<form [formGroup]="form" class="container">
   <div>
-    <label for="textInput">Text:</label>
+    <label for="textInput">Test text:</label>
+    <p>
+      Each question text and answer must be in one line. Add at least one new
+      line between each question.
+    </p>
+    <p>
+      In order to mark the correct answer, add -1, 1 or +1 at the end of the
+      answer line.
+    </p>
     <textarea
       id="textInput"
       type="text"
@@ -10,6 +18,5 @@
       formControlName="textInput"
     ></textarea>
   </div>
+  <button (click)="extractQuestions()">Extract Questions</button>
 </form>
-
-<button (click)="extractQuestions()">Extract Questions</button>

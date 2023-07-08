@@ -86,19 +86,19 @@ export class QuestionExtractorComponent {
         if (answerFullText.match(/-1$/)) {
           return {
             id: answerIndex,
-            text: answerFullText.replace(/-1$/, ''),
+            text: answer.replace(/-1$/, ''),
             correct: false,
           };
         } else if (answerFullText.match(/\+1$/)) {
           return {
             id: answerIndex,
-            text: answerFullText.replace(/\+1$/, ''),
+            text: answer.replace(/\+1$/, ''),
             correct: true,
           };
         } else if (answerFullText.match(/1$/)) {
           return {
             id: answerIndex,
-            text: answerFullText.replace(/1$/, ''),
+            text: answer.replace(/1$/, ''),
             correct: true,
           };
         }
