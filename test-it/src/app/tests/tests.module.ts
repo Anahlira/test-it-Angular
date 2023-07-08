@@ -6,17 +6,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import {
   TestDetailComponent,
-  TestEditComponent,
+  TestFormComponent,
   TestsListComponent,
 } from './components';
-import { TestCreateComponent } from './components/test-create/test-create.component';
 import { PlayTestComponent } from './components/play-test/play-test.component';
 
 const components = [
   TestsListComponent,
   TestDetailComponent,
-  TestEditComponent,
-  TestCreateComponent,
+  TestFormComponent,
   PlayTestComponent,
 ];
 const pipes: any[] = [];

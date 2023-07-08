@@ -4,7 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthActivate } from './guards';
 import { HomeComponent } from './home/home.component';
 import { SignupComponent } from './signup/signup.component';
-import { TestCreateComponent, TestEditComponent } from './tests/components';
+import { TestFormComponent } from './tests/components';
 import { QuestionExtractorComponent } from './question-extractor/question-extractor.component';
 
 const routes: Routes = [
@@ -26,7 +26,7 @@ const routes: Routes = [
 
   {
     path: 'test-extractor/check',
-    component: TestEditComponent,
+    component: TestFormComponent,
     data: { testType: 'check' },
     title: 'App | Test Extractor Check',
     canActivate: [AuthActivate],
@@ -71,7 +71,7 @@ const routes: Routes = [
 
   {
     path: 'test-create',
-    component: TestEditComponent,
+    component: TestFormComponent,
     title: 'App | Create test',
     canActivate: [AuthActivate],
     data: { testType: 'create' },

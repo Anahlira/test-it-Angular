@@ -22,7 +22,7 @@
 
   <div>
     <label>Private:</label>
-    <input formControlName="private" type="checkbox" />
+    <input formControlName="private" type="checkbox" changeTracker />
   </div>
 
   <hr />
@@ -81,11 +81,12 @@
               [value]="j"
               [checked]="answer.value.correct"
               (change)="updateCorrectAnswer(question, j)"
+              changeTracker
             />
             <span>Correct Answer</span>
           </ng-container>
           <ng-container *ngIf="question.value.type">
-            <input type="checkbox" formControlName="correct" />
+            <input type="checkbox" formControlName="correct" changeTracker />
             <span>Correct Answer</span>
           </ng-container>
 

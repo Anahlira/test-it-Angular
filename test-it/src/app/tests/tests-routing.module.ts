@@ -2,7 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {
   TestsListComponent,
   TestDetailComponent,
-  TestEditComponent,
+  TestFormComponent,
 } from './components';
 import { AuthDeactivate } from '../guards';
 import { PlayTestComponent } from './components/play-test/play-test.component';
@@ -24,7 +24,7 @@ const routes: Routes = [
   },
   {
     path: ':id/edit',
-    component: TestEditComponent,
+    component: TestFormComponent,
     title: 'App | TestEdit',
     canDeactivate: [AuthDeactivate],
     data: { testType: 'edit' },

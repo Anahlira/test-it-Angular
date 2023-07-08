@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { PlayTestComponent } from './play-test.component';
 
 describe('PlayTestComponent', () => {
@@ -8,7 +7,7 @@ describe('PlayTestComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PlayTestComponent]
+      declarations: [PlayTestComponent],
     });
     fixture = TestBed.createComponent(PlayTestComponent);
     component = fixture.componentInstance;

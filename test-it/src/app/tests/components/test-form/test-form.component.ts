@@ -2,7 +2,7 @@ import { Component, ViewChildren, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { DialogComponent } from 'src/app/dialog/dialog.component';
 import { AuthService } from 'src/app/services/auth.service';
 import {
@@ -12,15 +12,14 @@ import {
   TestsService,
 } from 'src/app/services/tests.service';
 import { ChangeDirective } from 'src/app/shared/change.directive';
-import { containsValidator } from 'src/app/shared/contains.directive';
 import { RestApiService } from 'src/app/shared/rest-api.service';
 
 @Component({
-  selector: 'app-test-edit',
-  templateUrl: './test-edit.component.html',
-  styleUrls: ['./test-edit.component.scss'],
+  selector: 'app-test-form',
+  templateUrl: './test-form.component.html',
+  styleUrls: ['./test-form.component.scss'],
 })
-export class TestEditComponent {
+export class TestFormComponent {
   form: FormGroup;
   test$: Observable<ITest> | undefined = undefined;
   editTest: string = 'create';
