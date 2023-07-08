@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, map, mergeMap, switchMap } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 import { ITest, TestsService } from 'src/app/services/tests.service';
 
 @Component({
@@ -10,26 +11,25 @@ import { ITest, TestsService } from 'src/app/services/tests.service';
 })
 export class TestDetailComponent {
   test$: Observable<ITest> | undefined = undefined;
+  isTestOwners = false;
+
   constructor(
     private testsService: TestsService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
     this.test$ = this.testsService.getTest(
       this.activatedRoute.snapshot.params['id']
     );
-    // this.testsService.tests$
-    //   .pipe(
-    //     map((tests: ITest[]) =>
-    //       tests.find(
-    //         (test: ITest) =>
-    //           test._id === this.activatedRoute.snapshot.params['id']
-    //       )
-    //     )
-    //   )
-    //   .subscribe((test) => {
-    //     this.test = test;
-    //   });
+
+    this.test$?.subscribe((test) => {
+      this.isTestOwners = test.ownerId == this.authService.user?._id;
+    });
+  }
+
+  deleteTest(test: ITest) {
+    this.testsService.deleteTest(test?._id || '');
   }
 }
