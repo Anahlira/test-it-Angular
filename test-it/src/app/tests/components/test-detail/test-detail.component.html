@@ -18,7 +18,10 @@
       Question {{ question.id }}. {{ question.questionText }}
     </p>
     <div *ngFor="let answer of question.answers" id="test-answers-component">
-      <p class="test-answer">{{ answer.id }}. {{ answer.text }}</p>
+      <p class="test-answer">
+        {{ answer.id }}. {{ answer.text }} -
+        {{ answer.correct ? "correct" : "incorrect" }}
+      </p>
     </div>
   </div>
 </div>
