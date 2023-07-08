@@ -26,6 +26,7 @@ export class TestEditComponent {
   @ViewChildren(ChangeDirective) changeDirectives: ChangeDirective[] = [];
 
   constructor(
+    private router: Router,
     private testsService: TestsService,
     private authService: AuthService,
     private restApi: RestApiService,
@@ -42,9 +43,10 @@ export class TestEditComponent {
         this.test$ = this.testsService.getTest(
           this.activatedRoute.snapshot.params['id']
         );
+
         break;
       default:
-      // this.test$ = this.testsService
+        this.test$ = this.testsService.createdTest$;
     }
 
     this.createForm();
@@ -178,17 +180,27 @@ export class TestEditComponent {
           .editTest(this.activatedRoute.snapshot.params['id'], myTest as ITest)
           .subscribe((data: ITest) => {
             console.log(data);
+            const newTestId = data._id;
+
+            this.changeDirectives.forEach((d) => {
+              d.updateValue();
+            });
+            this.router.navigate([`/my-tests/${newTestId}`]);
           });
         break;
       default:
         this.restApi.createTest(myTest).subscribe((data: ITest) => {
           console.log(data);
+          const newTestId = data._id;
+          this.changeDirectives.forEach((d) => {
+            d.updateValue();
+          });
+
+          this.testsService.resetCreatedTest();
+          this.router.navigate([`/my-tests/${newTestId}`]);
         });
     }
 
-    this.changeDirectives.forEach((d) => {
-      d.updateValue();
-    });
     // this.form.reset();
     // this.createForm();
   }

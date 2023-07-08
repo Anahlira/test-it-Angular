@@ -24,6 +24,7 @@ export class QuestionExtractorComponent {
   });
 
   constructor(
+    private router: Router,
     private authService: AuthService,
     private testsService: TestsService
   ) {}
@@ -104,7 +105,8 @@ export class QuestionExtractorComponent {
       visibility: 'public',
       questions,
     };
-
     this.testsService.saveCreatedTest(test);
+
+    this.router.navigate(['/home/check']);
   }
 }

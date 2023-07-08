@@ -4,7 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthActivate } from './guards';
 import { HomeComponent } from './home/home.component';
 import { SignupComponent } from './signup/signup.component';
-import { TestCreateComponent } from './tests/components';
+import { TestCreateComponent, TestEditComponent } from './tests/components';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
@@ -13,6 +13,14 @@ const routes: Routes = [
     path: 'home',
     component: HomeComponent,
     title: 'App | Home',
+    canActivate: [AuthActivate],
+  },
+
+  {
+    path: 'home/check',
+    component: TestEditComponent,
+    data: { testType: 'check' },
+    title: 'App | Home Check',
     canActivate: [AuthActivate],
   },
 
