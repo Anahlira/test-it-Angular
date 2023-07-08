@@ -5,6 +5,7 @@ import { AuthActivate } from './guards';
 import { HomeComponent } from './home/home.component';
 import { SignupComponent } from './signup/signup.component';
 import { TestCreateComponent, TestEditComponent } from './tests/components';
+import { QuestionExtractorComponent } from './question-extractor/question-extractor.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
@@ -17,10 +18,17 @@ const routes: Routes = [
   },
 
   {
-    path: 'home/check',
+    path: 'test-extractor',
+    component: QuestionExtractorComponent,
+    title: 'App | Test Extractor',
+    canActivate: [AuthActivate],
+  },
+
+  {
+    path: 'test-extractor/check',
     component: TestEditComponent,
     data: { testType: 'check' },
-    title: 'App | Home Check',
+    title: 'App | Test Extractor Check',
     canActivate: [AuthActivate],
   },
 

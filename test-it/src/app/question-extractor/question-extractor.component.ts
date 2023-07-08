@@ -128,6 +128,6 @@ export class QuestionExtractorComponent {
     };
     this.testsService.saveCreatedTest(test);
 
-    this.router.navigate(['/home/check']);
+    this.router.navigate(['/test-extractor/check']);
   }
 }
