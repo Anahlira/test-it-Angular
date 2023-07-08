@@ -138,7 +138,7 @@ export class PlayTestComponent implements OnInit {
   canDeactivate() {
     let exit = true;
 
-    if (Object.keys(this.answers).length !== 0) {
+    if (Object.keys(this.answers).length !== 0 && this.result === undefined) {
       exit = false;
     }
 
