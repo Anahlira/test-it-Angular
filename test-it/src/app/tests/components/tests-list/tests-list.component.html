@@ -6,11 +6,15 @@
     <a [routerLink]="['..', test._id]">{{ test.title }} </a>
     <div>
       <button [routerLink]="['..', test._id]">View test</button>
-      <button [routerLink]="['..', test._id, 'edit']">Edit test</button>
+      <button *ngIf="arePersonalTests" [routerLink]="['..', test._id, 'edit']">
+        Edit test
+      </button>
     </div>
     <div>
       <button [routerLink]="['..', test._id, 'play']">Start test</button>
-      <button (click)="deleteTest(test)">Delete test</button>
+      <button *ngIf="arePersonalTests" (click)="deleteTest(test)">
+        Delete test
+      </button>
     </div>
   </li>
 </ul>
