@@ -70,7 +70,7 @@ export class QuestionExtractorComponent {
       index++;
 
       const answers: IAnswer[] = question.map((answer, answerIndex: number) => {
-        const answerTexts = answer.split('|');
+        const answerTexts: string[] = answer.split('|');
 
         if (answerTexts.length === 2) {
           return {
@@ -79,6 +79,27 @@ export class QuestionExtractorComponent {
             correct:
               answerTexts[1].trim().replaceAll(' ', '') === '1' ||
               answerTexts[1].trim().replaceAll(' ', '') === '+1',
+          };
+        }
+        const answerFullText: string = answer.replaceAll(' ', '').trim();
+
+        if (answerFullText.match(/-1$/)) {
+          return {
+            id: answerIndex,
+            text: answerFullText.replace(/-1$/, ''),
+            correct: false,
+          };
+        } else if (answerFullText.match(/\+1$/)) {
+          return {
+            id: answerIndex,
+            text: answerFullText.replace(/\+1$/, ''),
+            correct: true,
+          };
+        } else if (answerFullText.match(/1$/)) {
+          return {
+            id: answerIndex,
+            text: answerFullText.replace(/1$/, ''),
+            correct: true,
           };
         }
 
