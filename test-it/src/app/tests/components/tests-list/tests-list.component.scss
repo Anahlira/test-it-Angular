@@ -10,7 +10,7 @@ ul {
 }
 
 li {
-  background-color: #f8f9fa;
+  background-color: #e7f3ff;
   border-radius: 4px;
   padding: 20px;
   margin-bottom: 10px;
@@ -21,6 +21,16 @@ li {
   margin: 5px;
   width: 40%;
   box-shadow: 0 0 1px 0px #00000087;
+}
+
+li div {
+  display: flex;
+  justify-content: space-between;
+  align-content: flex-start;
+  flex-direction: row;
+  align-items: baseline;
+  width: 80%;
+  max-width: 400px;
 }
 
 li:hover {
@@ -47,6 +57,8 @@ button {
   cursor: pointer;
   margin-right: 10px;
   margin-bottom: 10px;
+  flex-grow: 1;
+  width: 49%;
 }
 
 button:hover {
