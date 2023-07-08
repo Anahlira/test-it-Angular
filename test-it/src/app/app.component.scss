@@ -1,13 +1,11 @@
-
-
 nav {
- background-color: #7fbcfd;
- color: white;
- padding: 10px;
+  background-color: #7fbcfd;
+  color: white;
+  padding: 10px;
 }
 
 .route {
- display: flex;
+  display: flex;
   justify-content: space-between;
   align-content: center;
   flex-direction: row;
@@ -16,35 +14,34 @@ nav {
 }
 
 .route a {
- color: white;
- text-decoration: none;
- font-size: 16px;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
 }
 
-
-.route-buttons button  {
- background-color: transparent;
- padding: 8px 16px;
- border: none;
- border-radius: 4px;
- font-size: 14px;
- cursor: pointer;
+.route-buttons button {
+  background-color: transparent;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .route-buttons button:hover {
- background-color: #4666cf;
+  background-color: #007bff;
 }
 
-button.logout{
- background-color: #dc3545;
- color: white;
- padding: 8px 16px;
- border: none;
- border-radius: 4px;
- font-size: 14px;
- cursor: pointer;
+button.logout {
+  background-color: #dc3545;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 button.logout:hover {
- background-color: #c82333;
+  background-color: #c82333;
 }
