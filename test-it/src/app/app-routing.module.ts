@@ -71,9 +71,10 @@ const routes: Routes = [
 
   {
     path: 'test-create',
-    component: TestCreateComponent,
+    component: TestEditComponent,
     title: 'App | Create test',
     canActivate: [AuthActivate],
+    data: { testType: 'create' },
   },
 ];
 

@@ -43,15 +43,17 @@ export class TestEditComponent {
         this.test$ = this.testsService.getTest(
           this.activatedRoute.snapshot.params['id']
         );
-
+        break;
+      case 'check':
+        this.test$ = this.testsService.createdTest$;
+        break;
+      case 'create':
+        this.test$ = this.testsService.createdTest$;
         break;
       default:
-        this.test$ = this.testsService.createdTest$;
     }
 
     this.createForm();
-
-    console.log(this.form);
   }
 
   //------------------------
@@ -61,14 +63,19 @@ export class TestEditComponent {
   createForm() {
     this.test$?.subscribe((t) => {
       console.log(t);
+      let questions: any = [];
+      if (t.questions) {
+        questions = t.questions?.map((q) => {
+          return this.createQuestionGroup(q);
+        });
+      } else {
+        questions.push(this.createQuestionGroup());
+      }
+
       this.form = this.formBuilder.group({
         title: t?.title,
         private: !t?.visibility,
-        questions: this.formBuilder.array(
-          t.questions.map((q) => {
-            return this.createQuestionGroup(q);
-          })
-        ),
+        questions: this.formBuilder.array(questions),
       });
     });
   }
@@ -76,7 +83,7 @@ export class TestEditComponent {
   createQuestionGroup(question?: IQuestion) {
     let answers: any = [];
     if (question?.answers) {
-      answers = question.answers.map((a) => {
+      answers = question.answers?.map((a) => {
         return this.createAnswerGroup(a);
       });
     } else {
@@ -176,16 +183,15 @@ export class TestEditComponent {
 
     switch (this.editTest) {
       case 'edit':
+        const testId = this.activatedRoute.snapshot.params['id'];
         this.testsService
-          .editTest(this.activatedRoute.snapshot.params['id'], myTest as ITest)
+          .editTest(testId, myTest as ITest)
           .subscribe((data: ITest) => {
             console.log(data);
-            const newTestId = data._id;
-
             this.changeDirectives.forEach((d) => {
               d.updateValue();
             });
-            this.router.navigate([`/my-tests/${newTestId}`]);
+            this.router.navigate([`/my-tests/${testId}`]);
           });
         break;
       default:
