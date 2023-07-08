@@ -44,6 +44,9 @@ input[type="checkbox"] {
 
 .button-container {
   text-align: center;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
 }
 
 button {

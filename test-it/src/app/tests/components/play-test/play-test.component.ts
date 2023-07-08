@@ -49,7 +49,7 @@ export class PlayTestComponent implements OnInit {
     return selectedAnswers && selectedAnswers.includes(answerIndex);
   }
 
-  ngOnInit(): void {
+  loadTest(): void {
     this.testsService
       .getTest(this.activatedRoute.snapshot.params['id'])
       .subscribe((test) => {
@@ -61,6 +61,10 @@ export class PlayTestComponent implements OnInit {
           ),
         });
       });
+  }
+
+  ngOnInit(): void {
+    this.loadTest();
   }
 
   buildQuestionGroup(question: IQuestion): FormGroup {
@@ -133,6 +137,8 @@ export class PlayTestComponent implements OnInit {
 
   resetForm(): void {
     this.form.reset();
+    this.loadTest();
+
     this.answers = {};
     this.result = undefined;
   }
