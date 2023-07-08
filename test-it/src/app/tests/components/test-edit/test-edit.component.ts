@@ -66,7 +66,6 @@ export class TestEditComponent {
 
   createForm() {
     this.test$?.subscribe((t) => {
-      console.log(t);
       let questions: any = [];
       if (t.questions) {
         questions = t.questions?.map((q) => {
@@ -130,6 +129,7 @@ export class TestEditComponent {
   get questionGroups() {
     return this.form.get('questions') as FormArray;
   }
+
   answerGroups(index: number) {
     return this.questionGroups.controls[index].get('answers') as FormArray;
   }
@@ -163,6 +163,18 @@ export class TestEditComponent {
     return 0;
   }
 
+  chechForExistingCorrectAnswer(answers: IAnswer[]) {
+    let hasCorrect = false;
+
+    answers.forEach((answer: IAnswer) => {
+      if (answer.correct) {
+        hasCorrect = true;
+        return;
+      }
+    });
+    return hasCorrect;
+  }
+
   saveTest() {
     let missingElements = false;
 
@@ -184,6 +196,10 @@ export class TestEditComponent {
             ...answer,
           }));
 
+        if (this.chechForExistingCorrectAnswer(answers) === false) {
+          missingElements = true;
+        }
+
         return {
           id: index + 1,
           questionText: element.questionText,
@@ -194,6 +210,7 @@ export class TestEditComponent {
             .map((el: IAnswer) => el.id),
         };
       });
+
     const myTest: ITest = {
       title: this.form.value.title,
       questions: questions,
@@ -210,7 +227,7 @@ export class TestEditComponent {
     if (missingElements) {
       const dialogRef = this.dialog.open(DialogComponent, {
         data: {
-          title: `Are you sure you want to save? The test have missing elements.`,
+          title: `Are you sure you want to save? The test has missing elements.`,
           confirmText: 'Save',
         },
       });
