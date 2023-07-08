@@ -24,6 +24,7 @@ export class TestEditComponent {
   form: FormGroup;
   test$: Observable<ITest> | undefined = undefined;
   editTest: string = 'create';
+  savedTest = false;
 
   @ViewChildren(ChangeDirective) changeDirectives: ChangeDirective[] = [];
 
@@ -248,11 +249,16 @@ export class TestEditComponent {
           this.router.navigate([`/my-tests/${newTestId}`]);
         });
     }
+    this.savedTest = true;
     this.router.navigate(['/tests']);
   }
 
   canDeactivate() {
     let exit = true;
+
+    if (this.savedTest) {
+      return true;
+    }
 
     this.changeDirectives.forEach((change) => {
       if (!change.isPristine()) {
