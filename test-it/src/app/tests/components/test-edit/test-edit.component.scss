@@ -13,9 +13,23 @@ h2 {
   background-color: #e7f3ff;
   margin-top: 10px;
 }
+
 .questions-container {
   flex-grow: 1;
   width: 100%;
+}
+
+.answer-component {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: baseline;
+  justify-content: flex-start;
+}
+
+.answer-component input[type="text"] {
+  margin-bottom: 10px;
+  flex-grow: 1;
 }
 
 label {

@@ -33,14 +33,16 @@
       *ngFor="let question of questionGroups.controls; let i = index"
       [formGroupName]="i"
     >
-      <label>Question {{ i + 1 }}. </label>
-      <input
-        formControlName="questionText"
-        type="text"
-        [value]="question.value.questionText"
-        initialValue="question.value.questionText"
-        changeTracker
-      />
+      <div class="question-title-container">
+        <label>Question {{ i + 1 }}. </label>
+        <input
+          formControlName="questionText"
+          type="text"
+          [value]="question.value.questionText"
+          initialValue="question.value.questionText"
+          changeTracker
+        />
+      </div>
       <div>
         <label>Multiple Choice:</label>
         <input
@@ -59,6 +61,7 @@
         <div
           *ngFor="let answer of answerGroups(i).controls; let j = index"
           [formGroupName]="j"
+          class="answer-component"
         >
           <label>{{ j + 1 }}. </label>
           <input
