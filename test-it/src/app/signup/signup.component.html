@@ -9,6 +9,15 @@
       formControlName="email"
       required
     />
+    <div *ngIf="getFormControl('email').touched && getFormControl('email').invalid">
+      <div *ngIf="getFormControl('email').getError('required')">This field is required</div>
+      <div *ngIf="getFormControl('email').getError('minlength'); let minlength">Min length is
+        {{minlength.requiredLength}} and the
+        current length is {{minlength.actualLength}}</div>
+      <div *ngIf="getFormControl('email').getError('mustContain'); let mustContainError;">Field must contain
+        {{mustContainError}}
+      </div>
+    </div>
   </div>
   <div>
     <label for="username">Username:</label>
@@ -19,6 +28,12 @@
       formControlName="username"
       required
     />
+    <div *ngIf="getFormControl('username').touched && getFormControl('username').invalid">
+      <div *ngIf="getFormControl('username').getError('required')">This field is required</div>
+      <div *ngIf="getFormControl('username').getError('minlength'); let minlength">Min length is
+        {{minlength.requiredLength}} and the
+        current length is {{minlength.actualLength}}</div>
+    </div>
   </div>
   <div>
     <label for="firstName">First Name:</label>
@@ -29,6 +44,9 @@
       formControlName="firstname"
       required
     />
+    <div *ngIf="getFormControl('firstname').touched && getFormControl('firstname').invalid">
+      <div *ngIf="getFormControl('firstname').getError('required')">This field is required</div>
+    </div>
   </div>
   <div>
     <label for="lastName">Last Name:</label>
@@ -39,6 +57,9 @@
       formControlName="lastname"
       required
     />
+    <div *ngIf="getFormControl('lastname').touched && getFormControl('lastname').invalid">
+      <div *ngIf="getFormControl('lastname').getError('required')">This field is required</div>
+    </div>
   </div>
   <div>
     <label for="password">Password:</label>
@@ -49,6 +70,9 @@
       formControlName="password"
       required
     />
+    <div *ngIf="getFormControl('password').touched && getFormControl('password').invalid">
+      <div *ngIf="getFormControl('password').getError('required')">This field is required</div>
+    </div>
   </div>
   <button type="submit" [disabled]="form.invalid">Sign Up</button>
   <button type="button" class="login-button" (click)="goToLogin()">

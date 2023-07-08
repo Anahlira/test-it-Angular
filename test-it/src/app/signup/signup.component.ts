@@ -41,4 +41,7 @@ export class SignupComponent {
   goToLogin(): void {
     this.router.navigateByUrl('/login');
   }
+  getFormControl(name: keyof typeof this.form.controls) {
+    return this.form.controls[name];
+  }
 }
