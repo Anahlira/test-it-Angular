@@ -1,6 +1,14 @@
+import { DialogRef } from '@angular/cdk/dialog';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ITest, TestsService } from 'src/app/services/tests.service';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialogModule,
+} from '@angular/material/dialog';
+import { DialogComponent } from 'src/app/dialog/dialog.component';
 
 @Component({
   selector: 'app-tests-list',
@@ -13,7 +21,8 @@ export class TestsListComponent {
 
   constructor(
     private testsService: TestsService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public dialog: MatDialog
   ) {
     this.arePersonalTests =
       !!this.activatedRoute.snapshot.data['personalTests'];
@@ -32,6 +41,13 @@ export class TestsListComponent {
   }
 
   deleteTest(test: ITest) {
-    this.testsService.deleteTest(test?._id || '');
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: { title: this.selectedTest?.title },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.testsService.deleteTest(test?._id || '');
+      }
+    });
   }
 }

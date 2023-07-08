@@ -72,9 +72,15 @@ export class TestEditComponent {
         questions.push(this.createQuestionGroup());
       }
 
+      let visibility: boolean = false;
+
+      if (t?.visibility === undefined) {
+        visibility = true;
+      } else if (t.visibility === 'public' || t.visibility) visibility = true;
+
       this.form = this.formBuilder.group({
         title: t?.title,
-        private: !t?.visibility,
+        private: !visibility,
         questions: this.formBuilder.array(questions),
       });
     });

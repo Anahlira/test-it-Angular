@@ -9,15 +9,25 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SignupComponent } from './signup/signup.component';
 import { QuestionExtractorComponent } from './question-extractor/question-extractor.component';
+import { DialogComponent } from './dialog/dialog.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, SignupComponent, QuestionExtractorComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    HomeComponent,
+    SignupComponent,
+    QuestionExtractorComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     SharedModule,
     ReactiveFormsModule,
+    NoopAnimationsModule,
+    DialogComponent,
   ],
   providers: [],
   bootstrap: [AppComponent],
