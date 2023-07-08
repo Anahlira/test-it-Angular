@@ -27,6 +27,7 @@ const routes: Routes = [
     component: TestEditComponent,
     title: 'App | TestEdit',
     canDeactivate: [AuthDeactivate],
+    data: { testType: 'edit' },
   },
 
   {

@@ -16,9 +16,9 @@
   <div formArrayName="questions">
     <div *ngFor="let question of questionGroups.controls; let i = index" [formGroupName]="i" >
       <label>Question {{ i + 1 }}. </label>
-      <input formControlName="questionText" type="text" [value]="question.value.questionText"  />
+      <input formControlName="questionText" type="text" [value]="question.value.questionText" initialValue="question.value.questionText" changeTracker/>
       <label>Multiple Choice:</label>
-      <input formControlName="type" type="checkbox" [checked]="question.value.type === 'mc'"/>
+      <input formControlName="type" type="checkbox" [checked]="question.value.type === 'mc'" initialValue="question.value.type" changeTracker/>
 
       <br/>
 
@@ -27,7 +27,7 @@
         <div *ngFor="let answer of answerGroups(i).controls; let j = index"
           [formGroupName]="j">
           <label>{{ j + 1 }}. </label>
-          <input formControlName="text" type="text" [(ngModel)]="answer.value.text" />
+          <input formControlName="text" type="text" [(ngModel)]="answer.value.text"  initialValue="answer.value.text" changeTracker/>
       
           <ng-container *ngIf="!question.value.type">
             <input  

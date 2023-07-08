@@ -2,6 +2,7 @@ import { Component, ViewChildren, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 import {
   IAnswer,
   IQuestion,
@@ -10,6 +11,7 @@ import {
 } from 'src/app/services/tests.service';
 import { ChangeDirective } from 'src/app/shared/change.directive';
 import { containsValidator } from 'src/app/shared/contains.directive';
+import { RestApiService } from 'src/app/shared/rest-api.service';
 
 @Component({
   selector: 'app-test-edit',
@@ -19,22 +21,31 @@ import { containsValidator } from 'src/app/shared/contains.directive';
 export class TestEditComponent {
   form: FormGroup;
   test$: Observable<ITest> | undefined = undefined;
+  editTest: string = 'create';
 
-  @ViewChildren(ChangeDirective) changes: ChangeDirective[] = [];
+  @ViewChildren(ChangeDirective) changeDirectives: ChangeDirective[] = [];
 
   constructor(
-    private router: Router,
     private testsService: TestsService,
+    private authService: AuthService,
+    private restApi: RestApiService,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder
   ) {
     this.form = this.formBuilder.group({});
+    this.editTest = this.activatedRoute.snapshot.data['testType'] || 'create';
   }
 
   ngOnInit() {
-    this.test$ = this.testsService.getTest(
-      this.activatedRoute.snapshot.params['id']
-    );
+    switch (this.editTest) {
+      case 'edit':
+        this.test$ = this.testsService.getTest(
+          this.activatedRoute.snapshot.params['id']
+        );
+        break;
+      default:
+      // this.test$ = this.testsService
+    }
 
     this.createForm();
 
@@ -155,13 +166,29 @@ export class TestEditComponent {
       visibility: this.form.value.private,
     };
 
-    console.log(myTest);
-    this.testsService
-      .editTest(this.activatedRoute.snapshot.params['id'], myTest as ITest)
-      .subscribe((data: ITest) => {
-        console.log(data);
-      });
+    if (this.editTest !== 'edit') {
+      myTest.ownerId = this.authService.user?._id;
+    }
 
+    console.log(myTest);
+
+    switch (this.editTest) {
+      case 'edit':
+        this.testsService
+          .editTest(this.activatedRoute.snapshot.params['id'], myTest as ITest)
+          .subscribe((data: ITest) => {
+            console.log(data);
+          });
+        break;
+      default:
+        this.restApi.createTest(myTest).subscribe((data: ITest) => {
+          console.log(data);
+        });
+    }
+
+    this.changeDirectives.forEach((d) => {
+      d.updateValue();
+    });
     // this.form.reset();
     // this.createForm();
   }
@@ -169,7 +196,7 @@ export class TestEditComponent {
   canDeactivate() {
     let exit = true;
 
-    this.changes.forEach((change) => {
+    this.changeDirectives.forEach((change) => {
       if (!change.isPristine()) {
         exit = false;
         return;
