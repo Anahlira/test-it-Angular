@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ITest, TestsService } from 'src/app/services/tests.service';
 
 @Component({
@@ -8,9 +9,21 @@ import { ITest, TestsService } from 'src/app/services/tests.service';
 })
 export class TestsListComponent {
   selectedTest: ITest | undefined = undefined;
-  constructor(private testsService: TestsService) {}
+  arePersonalTests = false;
+
+  constructor(
+    private testsService: TestsService,
+    private activatedRoute: ActivatedRoute
+  ) {
+    this.arePersonalTests =
+      !!this.activatedRoute.snapshot.data['personalTests'];
+  }
 
   get tests() {
+    if (this.arePersonalTests) {
+      return this.testsService.customerTests$;
+    }
+
     return this.testsService.tests$;
   }
 

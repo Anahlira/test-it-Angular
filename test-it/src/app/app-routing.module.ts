@@ -49,6 +49,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./tests/tests.module').then((m) => m.TestsModule),
     title: 'App | My Test Detail',
+    data: { personalTests: true },
     canActivate: [AuthActivate],
   },
 

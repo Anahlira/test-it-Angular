@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable, map, of } from 'rxjs';
 import { RestApiService } from '../shared/rest-api.service';
 import { AuthService } from './auth.service';
@@ -37,6 +37,10 @@ export class TestsService {
     private restApi: RestApiService,
     private authServise: AuthService
   ) {
+    this.reLoad();
+  }
+
+  reLoad(): void {
     this.tests$ = this.loadTests();
     this.customerTests$ = this.loadCustomerTests();
   }
@@ -73,7 +77,7 @@ export class TestsService {
 
   deleteTest(id: string): void {
     this.restApi.deleteTestById(id).subscribe(() => {
-      this.tests$ = this.loadTests();
+      this.reLoad();
     });
   }
 }
