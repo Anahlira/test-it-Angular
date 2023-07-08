@@ -154,9 +154,17 @@ export class TestEditComponent {
   //Exit test
   //------------------------
 
+  checkForNoAnswers(question: IQuestion) {
+    if (question?.answers.length === 0) return 1;
+    return 0;
+  }
+
   saveTest() {
-    const questions: IQuestion[] = this.form.value.questions.map(
-      (element: any, index: number) => {
+    const questions: IQuestion[] = this.form.value.questions
+      .filter(
+        (el: IQuestion) => el.questionText !== '' && !this.checkForNoAnswers(el)
+      )
+      .map((element: any, index: number) => {
         // Filter the empty answers
         const answers = element.answers
           .filter((el: IAnswer) => el.text !== '')
@@ -174,12 +182,10 @@ export class TestEditComponent {
             .filter((el: IAnswer) => el.correct)
             .map((el: IAnswer) => el.id),
         };
-      }
-    );
+      });
+    console.log(questions);
 
     const myTest: ITest = {
-      //for edit, no need, but create...
-      //ownerId: this.authService.user?._id,
       title: this.form.value.title,
       questions: questions,
       visibility: this.form.value.private,
@@ -216,9 +222,6 @@ export class TestEditComponent {
           this.router.navigate([`/my-tests/${newTestId}`]);
         });
     }
-
-    // this.form.reset();
-    // this.createForm();
   }
 
   canDeactivate() {
