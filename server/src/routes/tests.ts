@@ -31,7 +31,7 @@ routerTests.get("/user/:id", async (req, res) => {
   const dbConn = getConnection();
   const dbTests = dbConn.collection("tests");
 
-  const query = { ownerId: Number(req.params.id) };
+  const query = { ownerId: req.params.id };
   const options = {
     projection: { title: 1, visibility: 1 },
   };
