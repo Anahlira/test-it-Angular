@@ -16,7 +16,8 @@ export class TestDetailComponent {
   constructor(
     private testsService: TestsService,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -31,5 +32,6 @@ export class TestDetailComponent {
 
   deleteTest(test: ITest) {
     this.testsService.deleteTest(test?._id || '');
+    this.router.navigate(['/tests']);
   }
 }
