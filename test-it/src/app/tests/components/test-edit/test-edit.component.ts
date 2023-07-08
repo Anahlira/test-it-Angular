@@ -1,7 +1,9 @@
 import { Component, ViewChildren, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
+import { DialogComponent } from 'src/app/dialog/dialog.component';
 import { AuthService } from 'src/app/services/auth.service';
 import {
   IAnswer,
@@ -31,7 +33,8 @@ export class TestEditComponent {
     private authService: AuthService,
     private restApi: RestApiService,
     private activatedRoute: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    public dialog: MatDialog
   ) {
     this.form = this.formBuilder.group({});
     this.editTest = this.activatedRoute.snapshot.data['testType'] || 'create';
@@ -160,14 +163,21 @@ export class TestEditComponent {
   }
 
   saveTest() {
+    let missingElements = false;
+
     const questions: IQuestion[] = this.form.value.questions
-      .filter(
-        (el: IQuestion) => el.questionText !== '' && !this.checkForNoAnswers(el)
-      )
+      .filter((el: IQuestion) => {
+        if (el.questionText === '' || this.checkForNoAnswers(el))
+          missingElements = true;
+        return el.questionText !== '' && !this.checkForNoAnswers(el);
+      })
       .map((element: any, index: number) => {
         // Filter the empty answers
         const answers = element.answers
-          .filter((el: IAnswer) => el.text !== '')
+          .filter((el: IAnswer) => {
+            if (el.text === '') missingElements = true;
+            return el.text !== '';
+          })
           .map((answer: Omit<IAnswer, 'id'>, id: number) => ({
             id: id + 1,
             ...answer,
@@ -183,8 +193,6 @@ export class TestEditComponent {
             .map((el: IAnswer) => el.id),
         };
       });
-    console.log(questions);
-
     const myTest: ITest = {
       title: this.form.value.title,
       questions: questions,
@@ -195,8 +203,26 @@ export class TestEditComponent {
       myTest.ownerId = this.authService.user?._id;
     }
 
+    console.log(missingElements);
     console.log(myTest);
 
+    if (missingElements) {
+      const dialogRef = this.dialog.open(DialogComponent, {
+        data: {
+          title: `Are you sure you want to save? The test have missing elements.`,
+          confirmText: 'Save',
+        },
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.saveToDatabase(myTest);
+        } else missingElements = false;
+      });
+    } else this.saveToDatabase(myTest);
+  }
+
+  saveToDatabase(myTest: ITest) {
     switch (this.editTest) {
       case 'edit':
         const testId = this.activatedRoute.snapshot.params['id'];
@@ -222,6 +248,7 @@ export class TestEditComponent {
           this.router.navigate([`/my-tests/${newTestId}`]);
         });
     }
+    this.router.navigate(['/tests']);
   }
 
   canDeactivate() {
