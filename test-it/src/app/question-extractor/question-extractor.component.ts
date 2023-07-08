@@ -2,7 +2,12 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { IAnswer, IQuestion, ITest } from '../services/tests.service';
+import {
+  IAnswer,
+  IQuestion,
+  ITest,
+  TestsService,
+} from '../services/tests.service';
 
 @Component({
   selector: 'app-question-extractor',
@@ -18,7 +23,10 @@ export class QuestionExtractorComponent {
     textInput: [this.textInput],
   });
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private testsService: TestsService
+  ) {}
 
   extractQuestions(): void {
     if (!this.form.value.textInput) {
@@ -82,14 +90,21 @@ export class QuestionExtractorComponent {
         .map((answer) => answer.id);
 
       questions.push({
-        questionText: question[0],
+        questionText,
         type: correctAnswers.length > 1 ? 'mc' : 'radio',
-        correctAnswers: [1],
+        correctAnswers: correctAnswers,
         id: index,
         answers,
       });
     }
-    
-    console.log(questions);
+
+    const test: ITest = {
+      title: '',
+      ownerId: this.authService.user?._id,
+      visibility: 'public',
+      questions,
+    };
+
+    this.testsService.saveCreatedTest(test);
   }
 }
