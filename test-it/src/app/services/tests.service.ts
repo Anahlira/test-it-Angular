@@ -31,6 +31,7 @@ export interface ITest {
 export class TestsService {
   tests$: Observable<ITest[]> = new BehaviorSubject<ITest[]>([]);
   customerTests$: Observable<ITest[]> = new BehaviorSubject<ITest[]>([]);
+  createdTest$: Observable<ITest> = new BehaviorSubject<ITest>({} as ITest);
 
   constructor(
     private http: HttpClient,
@@ -79,5 +80,13 @@ export class TestsService {
     this.restApi.deleteTestById(id).subscribe(() => {
       this.reLoad();
     });
+  }
+
+  saveCreatedTest(test: ITest): void {
+    this.createdTest$ = new BehaviorSubject<ITest>(test);
+  }
+
+  resetCreatedTest(): void {
+    this.createdTest$ = new BehaviorSubject<ITest>({} as ITest);
   }
 }

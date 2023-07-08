@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
-import { IAnswer, IQuestion, ITest } from 'src/app/services/tests.service';
+import {
+  IAnswer,
+  IQuestion,
+  ITest,
+  TestsService,
+} from 'src/app/services/tests.service';
 import { RestApiService } from 'src/app/shared/rest-api.service';
 
 @Component({
@@ -100,7 +105,6 @@ export class TestCreateComponent {
       questions: questions,
       visibility: 'public',
     };
-    console.log(myTest);
 
     this.restApi.createTest(myTest).subscribe((data: ITest) => {
       console.log(data);
