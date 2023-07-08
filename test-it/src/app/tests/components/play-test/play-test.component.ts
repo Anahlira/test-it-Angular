@@ -145,6 +145,7 @@ export class PlayTestComponent implements OnInit {
     if (!exit) {
       return confirm('You did not submit the test. Do you want to leave?');
     }
+
     return true;
   }
 

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ViewChildren, inject } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
@@ -8,6 +8,7 @@ import {
   ITest,
   TestsService,
 } from '../services/tests.service';
+import { ChangeDirective } from '../shared/change.directive';
 
 @Component({
   selector: 'app-question-extractor',
@@ -23,6 +24,7 @@ export class QuestionExtractorComponent {
     textInput: [this.textInput],
   });
 
+  @ViewChildren(ChangeDirective) changeDirectives: ChangeDirective[] = [];
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -126,8 +128,28 @@ export class QuestionExtractorComponent {
       visibility: 'public',
       questions,
     };
+
     this.testsService.saveCreatedTest(test);
 
+    this.changeDirectives.forEach((d) => {
+      d.updateValue();
+    });
+
     this.router.navigate(['/test-extractor/check']);
+  }
+
+  canDeactivate() {
+    let exit = true;
+
+    this.changeDirectives.forEach((change) => {
+      if (!change.isPristine()) {
+        exit = false;
+        return;
+      }
+    });
+
+    if (!exit)
+      return confirm('You have unsaved changes. Do you want to leave?');
+    return true;
   }
 }

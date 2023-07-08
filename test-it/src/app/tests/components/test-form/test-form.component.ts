@@ -272,6 +272,10 @@ export class TestFormComponent {
   canDeactivate() {
     let exit = true;
 
+    if (this.editTest === 'check' && this.testsService.createdTest$) {
+      return confirm('You have unsaved changes. Do you want to leave?');
+    }
+
     if (this.savedTest) {
       return true;
     }
