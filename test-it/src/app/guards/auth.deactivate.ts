@@ -24,7 +24,7 @@ export class AuthDeactivate implements CanDeactivate<boolean> {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (currentState.url.includes('edit')) {
+    if (component.canDeactivate) {
       return component.canDeactivate();
     }
     return true;

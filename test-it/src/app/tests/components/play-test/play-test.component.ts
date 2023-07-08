@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 import { IQuestion, ITest } from 'src/app/services/tests.service';
 import { TestsService } from 'src/app/services/tests.service';
-
 @Component({
   selector: 'app-play-test',
   templateUrl: './play-test.component.html',
@@ -135,10 +133,31 @@ export class PlayTestComponent implements OnInit {
     return '';
   }
 
-  resetForm(): void {
-    this.form.reset();
-    this.loadTest();
+  canDeactivate() {
+    let exit = true;
 
+    if (Object.keys(this.answers).length !== 0) {
+      exit = false;
+    }
+
+    if (!exit) {
+      return confirm('You did not submit the test. Do you want to leave?');
+    }
+    return true;
+  }
+
+  resetForm(): void {
+    if (!this.test) {
+      return;
+    }
+
+    this.form.reset();
+
+    this.form = this.formBuilder.group({
+      questions: this.formBuilder.array(
+        this.test.questions.map((question) => this.buildQuestionGroup(question))
+      ),
+    });
     this.answers = {};
     this.result = undefined;
   }
