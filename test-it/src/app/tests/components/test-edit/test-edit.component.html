@@ -8,20 +8,17 @@
   <input formControlName="title" type="text" [(ngModel)]="test.title" initialValue="test.title" changeTracker/>
 
   <label>Private:</label>
-  <input *ngIf="test.visibility" formControlName="private" type="checkbox" />
-  <input *ngIf="!test.visibility" formControlName="private" type="checkbox" [(ngModel)]="test.visibility"/>
-
+  <input formControlName="private" type="checkbox" />
 
   <hr />
 
   <h3>Questions</h3>
   <div formArrayName="questions">
     <div *ngFor="let question of questionGroups.controls; let i = index" [formGroupName]="i" >
-      <label>Question {{ i }}. </label>
+      <label>Question {{ i + 1 }}. </label>
       <input formControlName="questionText" type="text" [value]="question.value.questionText"  />
       <label>Multiple Choice:</label>
       <input formControlName="type" type="checkbox" [checked]="question.value.type === 'mc'"/>
-
 
       <br/>
 
@@ -29,17 +26,17 @@
       <div formArrayName="answers">
         <div *ngFor="let answer of answerGroups(i).controls; let j = index"
           [formGroupName]="j">
-          <label>{{ j }}. </label>
+          <label>{{ j + 1 }}. </label>
           <input formControlName="text" type="text" [(ngModel)]="answer.value.text" />
       
-          <ng-container *ngIf="question.value.type === 'radio'">
-            <input name="answer._id" 
+          <ng-container *ngIf="!question.value.type">
+            <input  
             type="radio" [value]="j" 
             [checked]="answer.value.correct" 
             (change)="updateCorrectAnswer(question, j)"/>
             <span>Correct Answer</span>
           </ng-container>
-          <ng-container *ngIf="question.value.type === 'mc'">
+          <ng-container *ngIf="question.value.type">
             <input type="checkbox" formControlName="correct" />
             <span>Correct Answer</span>
           </ng-container>
@@ -52,5 +49,6 @@
       </div>
     </div>
   </div>
+    <button type="button" (click)="addQuestion()">Add Question</button>
   <button type="submit">Save Test</button>
 </form>
