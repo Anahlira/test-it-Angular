@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { AuthActivate } from './guards';
+import { AuthActivate, AuthDeactivate } from './guards';
 import { HomeComponent } from './home/home.component';
 import { SignupComponent } from './signup/signup.component';
 import { TestFormComponent } from './tests/components';
@@ -22,6 +22,7 @@ const routes: Routes = [
     component: QuestionExtractorComponent,
     title: 'App | Test Extractor',
     canActivate: [AuthActivate],
+    canDeactivate: [AuthDeactivate],
   },
 
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
     data: { testType: 'check' },
     title: 'App | Test Extractor Check',
     canActivate: [AuthActivate],
+    canDeactivate: [AuthDeactivate],
   },
 
   {
@@ -74,6 +76,7 @@ const routes: Routes = [
     component: TestFormComponent,
     title: 'App | Create test',
     canActivate: [AuthActivate],
+    canDeactivate: [AuthDeactivate],
     data: { testType: 'create' },
   },
 ];
